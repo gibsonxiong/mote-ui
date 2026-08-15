@@ -23,6 +23,37 @@ const enUS: MtLocaleMessages = {
     typeMismatch: 'Type mismatch',
     validateFailed: 'Validation failed',
   },
+  search: {
+    placeholder: 'Please enter keywords',
+  },
+  cascader: {
+    placeholder: 'Please select',
+  },
+  calendar: {
+    title: 'Date selection',
+    confirm: 'OK',
+    start: 'Start',
+    end: 'End',
+    startEnd: 'Start/End',
+    weekdays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+    monthTitle: '{month} {year}',
+  },
+  uploader: {
+    upload: 'Upload',
+    sizeExceed: 'File size cannot exceed {max}',
+    failed: 'Upload failed',
+  },
+  list: {
+    loading: 'Loading...',
+    finished: 'No more data',
+    error: 'Failed to load, tap to retry',
+  },
+  pullRefresh: {
+    pulling: 'Pull down to refresh...',
+    loosing: 'Release to refresh...',
+    loading: 'Loading...',
+    success: 'Refreshed successfully',
+  },
 }
 
 export default enUS

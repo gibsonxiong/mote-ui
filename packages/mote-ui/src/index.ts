@@ -27,6 +27,27 @@ import { MtBadge } from './components/badge'
 import { MtEmpty } from './components/empty'
 import { MtSkeleton } from './components/skeleton'
 import { MtConfigProvider } from './components/config-provider'
+import { MtStepper } from './components/stepper'
+import { MtRate } from './components/rate'
+import { MtSlider } from './components/slider'
+import { MtSearch } from './components/search'
+import { MtUploader } from './components/uploader'
+import { MtDatetimePicker } from './components/datetime-picker'
+import { MtCascader } from './components/cascader'
+import { MtCalendar } from './components/calendar'
+import { MtSwipe } from './components/swipe'
+import { MtSwipeCell } from './components/swipe-cell'
+import { MtList } from './components/list'
+import { MtPullRefresh } from './components/pull-refresh'
+import { MtBackTop } from './components/back-top'
+import { MtLoading } from './components/loading'
+import { MtProgress } from './components/progress'
+import { MtCountDown } from './components/count-down'
+import { MtNoticeBar } from './components/notice-bar'
+import { MtCollapse, MtCollapseItem } from './components/collapse'
+import { MtSteps, MtStep } from './components/steps'
+import { MtPopover } from './components/popover'
+import { MtImagePreview } from './components/image-preview'
 
 const components: Plugin[] = [
   MtButton,
@@ -59,6 +80,29 @@ const components: Plugin[] = [
   MtEmpty,
   MtSkeleton,
   MtConfigProvider,
+  MtStepper,
+  MtRate,
+  MtSlider,
+  MtSearch,
+  MtUploader,
+  MtDatetimePicker,
+  MtCascader,
+  MtCalendar,
+  MtSwipe,
+  MtSwipeCell,
+  MtList,
+  MtPullRefresh,
+  MtBackTop,
+  MtLoading,
+  MtProgress,
+  MtCountDown,
+  MtNoticeBar,
+  MtCollapse,
+  MtCollapseItem,
+  MtSteps,
+  MtStep,
+  MtPopover,
+  MtImagePreview,
 ]
 
 export { setLocale, useLocale, zhCN, enUS } from './locale'
@@ -108,6 +152,29 @@ export {
   MtEmpty,
   MtSkeleton,
   MtConfigProvider,
+  MtStepper,
+  MtRate,
+  MtSlider,
+  MtSearch,
+  MtUploader,
+  MtDatetimePicker,
+  MtCascader,
+  MtCalendar,
+  MtSwipe,
+  MtSwipeCell,
+  MtList,
+  MtPullRefresh,
+  MtBackTop,
+  MtLoading,
+  MtProgress,
+  MtCountDown,
+  MtNoticeBar,
+  MtCollapse,
+  MtCollapseItem,
+  MtSteps,
+  MtStep,
+  MtPopover,
+  MtImagePreview,
 }
 export type { MtButtonProps } from './components/button'
 export type { MtIconProps, MtIconName } from './components/icon'
@@ -150,6 +217,52 @@ export type { MtBadgeProps } from './components/badge'
 export type { MtEmptyProps } from './components/empty'
 export type { MtSkeletonProps } from './components/skeleton'
 export type { MtConfigProviderProps } from './components/config-provider'
+export type { MtStepperProps } from './components/stepper'
+export type { MtRateProps } from './components/rate'
+export type { MtSliderProps } from './components/slider'
+export type { MtSearchProps } from './components/search'
+export type {
+  MtUploaderProps,
+  MtUploaderFile,
+  MtUploaderFileStatus,
+} from './components/uploader'
+export type {
+  MtDatetimePickerProps,
+  MtDatetimePickerType,
+  MtDatetimePickerColumnType,
+} from './components/datetime-picker'
+export type {
+  MtCascaderProps,
+  MtCascaderOption,
+  MtCascaderFieldNames,
+  MtCascaderValue,
+} from './components/cascader'
+export type {
+  MtCalendarProps,
+  MtCalendarType,
+  MtCalendarValue,
+} from './components/calendar'
+export type { MtSwipeProps } from './components/swipe'
+export type { MtSwipeCellProps, MtSwipeCellPosition } from './components/swipe-cell'
+export type { MtListProps } from './components/list'
+export type { MtPullRefreshProps, MtPullRefreshStatus } from './components/pull-refresh'
+export type { MtBackTopProps } from './components/back-top'
+export type { MtLoadingProps, MtLoadingType } from './components/loading'
+export type { MtProgressProps, MtProgressStatus } from './components/progress'
+export type { MtCountDownProps, MtCountDownCurrentTime } from './components/count-down'
+export type { MtNoticeBarProps } from './components/notice-bar'
+export type {
+  MtCollapseProps,
+  MtCollapseItemProps,
+  MtCollapseValue,
+} from './components/collapse'
+export type { MtStepsProps, MtStepProps, MtStepsDirection } from './components/steps'
+export type {
+  MtPopoverProps,
+  MtPopoverAction,
+  MtPopoverPlacement,
+} from './components/popover'
+export type { MtImagePreviewProps } from './components/image-preview'
 export type { MtLocaleMessages } from './locale'
 
 export default { install }

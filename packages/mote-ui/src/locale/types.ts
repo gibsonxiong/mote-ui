@@ -26,4 +26,37 @@ export interface MtLocaleMessages {
     typeMismatch: string
     validateFailed: string
   }
+  search: {
+    placeholder: string
+  }
+  cascader: {
+    placeholder: string
+  }
+  calendar: {
+    title: string
+    confirm: string
+    start: string
+    end: string
+    startEnd: string
+    weekdays: [string, string, string, string, string, string, string]
+    /** Supports `{year}` / `{month}` placeholders */
+    monthTitle: string
+  }
+  uploader: {
+    upload: string
+    /** Supports `{max}` placeholder for the formatted max size */
+    sizeExceed: string
+    failed: string
+  }
+  list: {
+    loading: string
+    finished: string
+    error: string
+  }
+  pullRefresh: {
+    pulling: string
+    loosing: string
+    loading: string
+    success: string
+  }
 }

@@ -23,6 +23,37 @@ const zhCN: MtLocaleMessages = {
     typeMismatch: '类型不匹配',
     validateFailed: '校验失败',
   },
+  search: {
+    placeholder: '请输入搜索关键词',
+  },
+  cascader: {
+    placeholder: '请选择',
+  },
+  calendar: {
+    title: '日期选择',
+    confirm: '确定',
+    start: '开始',
+    end: '结束',
+    startEnd: '开始/结束',
+    weekdays: ['日', '一', '二', '三', '四', '五', '六'],
+    monthTitle: '{year} 年 {month} 月',
+  },
+  uploader: {
+    upload: '上传文件',
+    sizeExceed: '文件大小不能超过 {max}',
+    failed: '上传失败',
+  },
+  list: {
+    loading: '正在加载...',
+    finished: '没有更多了',
+    error: '加载失败，点击重试',
+  },
+  pullRefresh: {
+    pulling: '下拉即可刷新...',
+    loosing: '释放即可刷新...',
+    loading: '正在加载...',
+    success: '刷新成功',
+  },
 }
 
 export default zhCN

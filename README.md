@@ -10,6 +10,15 @@
 - **协议**：MIT
 - **支持范围**：iOS Safari 14+ / Android Chrome 90+；**不支持 SSR（SPA only）**
 
+## 项目范围声明
+
+本库定位为**移动端 Vue 3 组件库**，API 命名对齐 Element Plus 惯例。以下方向不在规划内，相关 issue 将直接关闭：
+
+- 桌面端 / PC 端组件形态
+- Vue 2 兼容层
+- React / 其他框架移植
+- 可视化搭建 / 组件市场
+
 ## 仓库结构
 
 ```
@@ -53,7 +62,12 @@ pnpm lint         # ESLint 检查
 - 阶段 5 · 暗色模式：`[data-theme="dark"]` 语义化 token 覆写 ✅
 - 阶段 6 · 组件级 i18n：ConfigProvider + zh/en 语言包 ✅
 - 阶段 7 · 英文文档：VitePress locales 双语站点 ✅
-- v1.0 后：Playground 在线编辑（@vue/repl + Monaco，esm.sh 沙箱依赖）✅、社区反馈驱动迭代
+- Playground 在线编辑（@vue/repl + Monaco，esm.sh 沙箱依赖）✅
+- 阶段 8 · 数据录入补充：Stepper、Rate、Slider、Search、Uploader ✅ → v0.2
+- 阶段 9 · 时间与级联：DatetimePicker、Calendar、Cascader，Form 异步校验增强 ✅ → v0.3
+- 阶段 10 · 滚动场景：List、PullRefresh、BackTop、Swipe、SwipeCell，Popup z-index 自动层级 ✅ → v0.4
+- 阶段 11 · 展示补充：Loading、Progress、NoticeBar、Popover、Collapse、Steps、ImagePreview、CountDown ✅ → v0.5
+- v1.0：全量 API 审计 + Notify 破坏性变更统一后发布正式版
 
 ## 许可
 
