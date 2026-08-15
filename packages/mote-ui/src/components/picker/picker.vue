@@ -1,10 +1,15 @@
 <script setup lang="ts">
 import { computed, inject, ref, watch } from 'vue'
 import MtPickerColumn from './picker-column.vue'
-import { isCascadeColumns, resolveColumns } from './columns'
+import { isCascadeColumns, normalizeOption, resolveColumns } from './columns'
 import { formItemKey } from '../form/types'
 import { useLocale } from '../../locale'
-import type { MtPickerOption, MtPickerProps, MtPickerValue } from './types'
+import type {
+  MtPickerColumn as MtPickerColumnShape,
+  MtPickerOption,
+  MtPickerProps,
+  MtPickerValue,
+} from './types'
 
 defineOptions({
   name: 'MtPicker',
@@ -48,12 +53,30 @@ const barStyle = computed(() => ({
 }))
 
 function indexesFromValues(): number[] {
-  const columns = resolveColumns(props.columns, [])
   const values = Array.isArray(props.modelValue)
     ? props.modelValue
     : props.modelValue === undefined
       ? []
       : [props.modelValue]
+
+  // Cascade columns: walk the tree along the value path so each downstream
+  // column resolves against the correct branch, not just the first option's
+  // children (which broke non-first-branch values like ['js', 'sz']).
+  if (isCascadeColumns(props.columns)) {
+    const result: number[] = []
+    let level: MtPickerOption[] | undefined = (props.columns as MtPickerColumnShape).map(
+      normalizeOption,
+    )
+    for (let depth = 0; level && level.length > 0; depth++) {
+      const found: number = level.findIndex((option) => option.value === values[depth])
+      const index: number = found > -1 ? found : 0
+      result.push(index)
+      level = level[index]?.children?.map(normalizeOption)
+    }
+    return result
+  }
+
+  const columns = resolveColumns(props.columns, [])
   return columns.map((column, columnIndex) => {
     const found = column.findIndex((option) => option.value === values[columnIndex])
     return found > -1 ? found : 0

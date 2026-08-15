@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
+import { settleIndex } from './momentum'
 import type { MtPickerOption } from './types'
 
 defineOptions({
@@ -37,9 +38,6 @@ let velocity = 0
 let moved = false
 let lastEvent: TouchEvent | MouseEvent | null = null
 
-const MOMENTUM_DURATION = 1000
-const MOMENTUM_LIMIT = 15
-
 const translateY = computed(() => {
   const extra = dragging.value ? dragOffset.value : 0
   return (props.visibleOptionNum - 1) / 2 - props.index + extra / props.optionHeight
@@ -58,11 +56,27 @@ function clampIndex(index: number) {
   return Math.max(0, Math.min(props.options.length - 1, index))
 }
 
+/** Returns the nearest non-disabled index to `index`, skipping disabled options. */
+function resolveEnabledIndex(index: number): number {
+  const options = props.options
+  if (!options[index]?.disabled) return index
+  const length = options.length
+  for (let offset = 1; offset < length; offset++) {
+    const down = index + offset
+    const up = index - offset
+    if (down < length && !options[down]?.disabled) return down
+    if (up >= 0 && !options[up]?.disabled) return up
+  }
+  return index
+}
+
 function commitIndex(next: number) {
   const clamped = clampIndex(next)
-  if (clamped !== props.index) {
-    emit('update:index', clamped)
-    emit('change', clamped)
+  const resolved = resolveEnabledIndex(clamped)
+  if (props.options[resolved]?.disabled) return
+  if (resolved !== props.index) {
+    emit('update:index', resolved)
+    emit('change', resolved)
   }
 }
 
@@ -130,12 +144,7 @@ function handleDragEnd() {
     return
   }
 
-  let distance = startOffset
-  if (Math.abs(velocity) > 0.1) {
-    const momentum = (-velocity * MOMENTUM_DURATION) / 3
-    distance += Math.max(-MOMENTUM_LIMIT * props.optionHeight, Math.min(MOMENTUM_LIMIT * props.optionHeight, momentum))
-  }
-  const nextIndex = props.index - Math.round(distance / props.optionHeight)
+  const nextIndex = settleIndex(props.index, startOffset, velocity, props.optionHeight)
   commitIndex(nextIndex)
 }
 
