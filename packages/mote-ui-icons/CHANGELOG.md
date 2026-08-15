@@ -1,5 +1,11 @@
 # @mote-ui/icons
 
+## 0.2.0
+
+### Minor Changes
+
+- 1546bdf: 新增 MtIconSearch、MtIconPlus、MtIconStar、MtIconStarFilled、MtIconPhoto 五个图标，供阶段 8 新组件（Search、Stepper、Rate、Uploader）使用。
+
 ## 0.1.0
 
 ### Minor Changes
