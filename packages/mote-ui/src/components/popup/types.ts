@@ -11,6 +11,10 @@ export interface MtPopupProps {
   round?: boolean
   /** Teleport target */
   teleport?: string
-  /** Base z-index (overlay uses it, popup uses zIndex + 1) */
+  /**
+   * Base z-index (overlay uses it, popup uses zIndex + 1).
+   * Defaults to a globally auto-incrementing value so later-opened
+   * popups always stack above earlier ones.
+   */
   zIndex?: number
 }

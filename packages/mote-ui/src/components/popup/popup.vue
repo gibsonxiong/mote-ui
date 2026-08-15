@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, watch } from 'vue'
+import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { lockScroll, unlockScroll } from '../../utils/lock-scroll'
+import { nextZIndex } from '../../utils/z-index'
 import type { MtPopupProps } from './types'
 
 defineOptions({
@@ -14,7 +15,7 @@ const props = withDefaults(defineProps<MtPopupProps>(), {
   closeOnClickOverlay: true,
   round: false,
   teleport: 'body',
-  zIndex: 2000,
+  zIndex: undefined,
 })
 
 const emit = defineEmits<{
@@ -26,10 +27,15 @@ const emit = defineEmits<{
   clickOverlay: [event: MouseEvent]
 }>()
 
+// Auto-allocated when no explicit zIndex is given, so overlapping popups
+// stack in opening order without manual coordination.
+const allocatedZIndex = ref(0)
+
 watch(
   () => props.modelValue,
   (visible) => {
     if (visible) {
+      if (props.zIndex === undefined) allocatedZIndex.value = nextZIndex()
       lockScroll()
     } else {
       unlockScroll()
@@ -37,6 +43,8 @@ watch(
   },
   { immediate: true },
 )
+
+const baseZIndex = computed(() => props.zIndex ?? allocatedZIndex.value)
 
 onBeforeUnmount(() => {
   if (props.modelValue) unlockScroll()
@@ -63,7 +71,7 @@ function handleOverlayClick(event: MouseEvent) {
 <template>
   <Teleport :to="teleport">
     <Transition name="mt-overlay-fade" :duration="300">
-      <div v-if="modelValue && overlay" class="mt-overlay" :style="{ zIndex }" @click="handleOverlayClick" />
+      <div v-if="modelValue && overlay" class="mt-overlay" :style="{ zIndex: baseZIndex }" @click="handleOverlayClick" />
     </Transition>
     <Transition
       :name="transitionName"
@@ -73,7 +81,7 @@ function handleOverlayClick(event: MouseEvent) {
       @before-leave="emit('close')"
       @after-leave="emit('closed')"
     >
-      <div v-if="modelValue" :class="classes" :style="{ zIndex: zIndex + 1 }">
+      <div v-if="modelValue" :class="classes" :style="{ zIndex: baseZIndex + 1 }">
         <slot />
       </div>
     </Transition>

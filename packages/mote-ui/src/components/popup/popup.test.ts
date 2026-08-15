@@ -68,4 +68,23 @@ describe('MtPopup', () => {
     expect(document.body.style.overflow).toBe('')
     wrapper.unmount()
   })
+
+  it('stacks later-opened popups above earlier ones automatically', () => {
+    const first = mount(MtPopup, { props: { modelValue: true } })
+    const second = mount(MtPopup, { props: { modelValue: true } })
+    const popups = Array.from(document.body.querySelectorAll('.mt-popup')) as HTMLElement[]
+    const zIndexes = popups.map((popup) => Number(popup.style.zIndex))
+    expect(zIndexes[1]).toBeGreaterThan(zIndexes[0])
+    first.unmount()
+    second.unmount()
+  })
+
+  it('respects an explicit zIndex over auto allocation', () => {
+    const wrapper = mount(MtPopup, { props: { modelValue: true, zIndex: 5000 } })
+    const overlay = document.body.querySelector('.mt-overlay') as HTMLElement
+    const popup = document.body.querySelector('.mt-popup') as HTMLElement
+    expect(overlay.style.zIndex).toBe('5000')
+    expect(popup.style.zIndex).toBe('5001')
+    wrapper.unmount()
+  })
 })
