@@ -1,0 +1,19 @@
+// Minimal base reset for mobile pages.
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;
+  font-size: var(--mt-font-size-md);
+  line-height: var(--mt-line-height-normal);
+  color: var(--mt-text-color-primary);
+  background-color: var(--mt-bg-color-page);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}

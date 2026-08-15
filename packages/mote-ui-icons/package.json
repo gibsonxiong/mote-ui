@@ -1,0 +1,41 @@
+{
+  "name": "@mote-ui/icons",
+  "version": "0.1.0",
+  "description": "SVG icon components for Mote UI",
+  "keywords": [
+    "vue3",
+    "icons",
+    "svg",
+    "mote-ui"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "vite build"
+  },
+  "peerDependencies": {
+    "vue": "^3.4.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gibsonxiong/mote-ui.git",
+    "directory": "packages/mote-ui-icons"
+  }
+}

@@ -1,0 +1,71 @@
+# Notify
+
+<script setup>
+import { MtNotify } from 'mote-ui'
+</script>
+
+A notification sliding in from the top, invoked via functions — suited for system-level messages. Only one notify is shown at a time; repeated calls replace it.
+
+## Basic Usage
+
+The default type is `danger`:
+
+<PhonePreview>
+  <MtButton @click="MtNotify.show('Network error, please retry later')">Show notify</MtButton>
+</PhonePreview>
+
+```js
+import { MtNotify, showNotify } from 'mote-ui'
+
+MtNotify.show('Network error, please retry later')
+showNotify('Equivalent call')
+```
+
+## Notify Types
+
+<PhonePreview>
+  <MtButton @click="MtNotify.primary('New messages: 3 unread')">primary</MtButton>
+  <MtButton @click="MtNotify.success('Saved')">success</MtButton>
+  <MtButton @click="MtNotify.warning('Network is unstable')">warning</MtButton>
+  <MtButton @click="MtNotify.danger('Deletion failed')">danger</MtButton>
+</PhonePreview>
+
+```js
+MtNotify.primary('New messages: 3 unread')
+MtNotify.success('Saved')
+MtNotify.warning('Network is unstable')
+MtNotify.danger('Deletion failed')
+```
+
+## Manual Close
+
+With `duration` set to `0` it never auto-closes; call `MtNotify.close()` instead:
+
+```js
+MtNotify.show({ message: 'Waiting for the server...', duration: 0 })
+// ... later
+MtNotify.close()
+```
+
+## API
+
+### MtNotify Methods
+
+| Method | Description |
+| --- | --- |
+| MtNotify.show(options) | Shows a notify; see Options |
+| MtNotify.primary(message) | Primary notify |
+| MtNotify.success(message) | Success notify |
+| MtNotify.warning(message) | Warning notify |
+| MtNotify.danger(message) | Danger notify |
+| MtNotify.close() | Closes the current notify |
+
+The named exports `showNotify(options | string)` and `closeNotify()` are also available.
+
+### Options
+
+| Option | Description | Type | Default |
+| --- | --- | --- | --- |
+| message | Notify content | `string` | `''` |
+| type | Notify type | `'primary' \| 'success' \| 'warning' \| 'danger'` | `'danger'` |
+| duration | Auto-close delay (ms); `0` disables auto-close | `number` | `3000` |

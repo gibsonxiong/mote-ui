@@ -1,0 +1,56 @@
+{
+  "name": "mote-ui",
+  "version": "0.1.0",
+  "description": "A lightweight mobile Vue 3 component library borrowing Element Plus design tokens",
+  "keywords": [
+    "vue3",
+    "component-library",
+    "mobile",
+    "ui",
+    "element"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./dist/style.css": "./dist/style.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": [
+    "dist/style.css",
+    "*.scss",
+    "*.css"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "typecheck": "vue-tsc --noEmit"
+  },
+  "peerDependencies": {
+    "vue": "^3.4.0"
+  },
+  "dependencies": {
+    "@mote-ui/icons": "workspace:*"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gibsonxiong/mote-ui.git",
+    "directory": "packages/mote-ui"
+  },
+  "browserslist": [
+    "iOS >= 14",
+    "Chrome >= 90"
+  ]
+}
