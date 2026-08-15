@@ -22,6 +22,9 @@ const form = inject(formKey, null)
 const { t } = useLocale()
 
 const errorMessage = ref('')
+const validating = ref(false)
+// Monotonic token so a slow async round cannot overwrite a newer one.
+let validationSeq = 0
 let initialValue: unknown
 
 const fieldValue = computed<MtRuleValue | undefined>(() => {
@@ -54,13 +57,19 @@ const showAsterisk = computed(
 
 async function validate(trigger?: string): Promise<boolean> {
   if (!props.prop || mergedRules.value.length === 0) return true
+  const seq = ++validationSeq
+  validating.value = true
   try {
     await validateRules(mergedRules.value, fieldValue.value, trigger)
-    errorMessage.value = ''
+    if (seq === validationSeq) errorMessage.value = ''
     return true
   } catch (error) {
-    errorMessage.value = error instanceof Error ? error.message : t('form.validateFailed')
+    if (seq === validationSeq) {
+      errorMessage.value = error instanceof Error ? error.message : t('form.validateFailed')
+    }
     throw error
+  } finally {
+    if (seq === validationSeq) validating.value = false
   }
 }
 
@@ -79,6 +88,9 @@ const context: MtFormItemContext = {
   validate,
   resetField,
   clearValidate,
+  get validating() {
+    return validating.value
+  },
   onFieldChange: () => {
     validate('change').catch(() => undefined)
   },
@@ -102,7 +114,10 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="mt-form-item" :class="{ 'is-error': !!errorMessage }">
+  <div
+    class="mt-form-item"
+    :class="{ 'is-error': !!errorMessage, 'is-validating': validating }"
+  >
     <label v-if="label || $slots.label" class="mt-form-item__label">
       <span v-if="showAsterisk" class="mt-form-item__asterisk">*</span>
       <slot name="label">{{ label }}</slot>

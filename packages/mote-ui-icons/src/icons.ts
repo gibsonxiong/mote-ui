@@ -19,3 +19,33 @@ export const MtIconSuccess = createIcon('MtIconSuccess', () => [h('path', { d: '
 export const MtIconLoading = createIcon('MtIconLoading', () => [
   h('path', { d: 'M12 3a9 9 0 1 0 9 9' }),
 ])
+
+export const MtIconSearch = createIcon('MtIconSearch', () => [
+  h('circle', { cx: 11, cy: 11, r: 7 }),
+  h('path', { d: 'm20 20-4-4' }),
+])
+
+export const MtIconPlus = createIcon('MtIconPlus', () => [
+  h('path', { d: 'M12 5v14' }),
+  h('path', { d: 'M5 12h14' }),
+])
+
+export const MtIconStar = createIcon('MtIconStar', () => [
+  h('path', {
+    d: 'm12 3 2.7 5.6 6.1.8-4.5 4.3 1.1 6.1L12 16.9l-5.4 2.9 1.1-6.1L3.2 9.4l6.1-.8L12 3z',
+  }),
+])
+
+export const MtIconStarFilled = createIcon('MtIconStarFilled', () => [
+  h('path', {
+    d: 'm12 3 2.7 5.6 6.1.8-4.5 4.3 1.1 6.1L12 16.9l-5.4 2.9 1.1-6.1L3.2 9.4l6.1-.8L12 3z',
+    fill: 'currentColor',
+    stroke: 'none',
+  }),
+])
+
+export const MtIconPhoto = createIcon('MtIconPhoto', () => [
+  h('rect', { x: 3, y: 5, width: 18, height: 14, rx: 2 }),
+  h('circle', { cx: 9, cy: 10, r: 1.5 }),
+  h('path', { d: 'm5 19 5-5 3 3 3-3 3 3' }),
+])

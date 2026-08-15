@@ -52,6 +52,8 @@ export interface MtFormItemContext {
   validate: (trigger?: string) => Promise<boolean>
   resetField: () => void
   clearValidate: () => void
+  /** True while an async validation round is in flight */
+  validating: boolean
   /** Called by child controls when their value changes */
   onFieldChange: () => void
   /** Called by child controls on blur */

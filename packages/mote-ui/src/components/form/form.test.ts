@@ -5,6 +5,7 @@ import MtForm from './form.vue'
 import MtFormItem from './form-item.vue'
 import MtField from '../field/field.vue'
 import { validateRules } from './validator'
+import type { MtFormItemRule, MtRuleValue } from './types'
 
 interface MtFormVm {
   validate: () => Promise<boolean>
@@ -110,5 +111,45 @@ describe('MtForm validation', () => {
     await expect(
       validateRules([{ required: true, trigger: 'blur', message: '必填' }], '', 'blur'),
     ).rejects.toThrow('必填')
+  })
+
+  it('exposes validating state while an async validator runs', async () => {
+    const wrapper = mountForm(
+      { name: 'mote' },
+      { name: { validator: () => new Promise<void>((r) => setTimeout(r, 30)) } },
+    )
+    await flushPromises()
+    const form = getFormVm(wrapper)
+    const pending = form.validate()
+    await flushPromises()
+    expect(wrapper.find('.mt-form-item').classes()).toContain('is-validating')
+    await pending
+    await flushPromises()
+    expect(wrapper.find('.mt-form-item').classes()).not.toContain('is-validating')
+  })
+
+  it('ignores a stale async result after a newer validation round', async () => {
+    const model = { name: 'bad' }
+    const wrapper = mountForm(model, {
+      name: {
+        validator: (_rule: MtFormItemRule, value: MtRuleValue | undefined) =>
+          new Promise<void>((resolve, reject) =>
+            setTimeout(() => (value === 'bad' ? reject(new Error('stale')) : resolve()), 30),
+          ),
+      },
+    })
+    await flushPromises()
+    const form = getFormVm(wrapper)
+    const stale = form.validate().catch(() => undefined)
+    // Mutate through the reactive proxy held by the form, so the field
+    // value computed actually invalidates before the fresh round reads it.
+    const state = wrapper.findComponent(MtForm).props().model as { name: string }
+    state.name = 'good'
+    const fresh = form.validateField('name')
+    await stale
+    await fresh
+    await new Promise((resolve) => setTimeout(resolve, 60))
+    await flushPromises()
+    expect(wrapper.find('.mt-form-item__error').exists()).toBe(false)
   })
 })
