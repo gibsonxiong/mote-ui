@@ -3,13 +3,13 @@ import MtNotifyComponent from './notify.vue'
 import type { MtNotifyApi, MtNotifyOptions, MtNotifyType } from './types'
 
 interface NotifyState {
-  visible: boolean
+  modelValue: boolean
   message: string
   type: MtNotifyType
 }
 
 const state: NotifyState = {
-  visible: false,
+  modelValue: false,
   message: '',
   type: 'danger',
 }
@@ -27,7 +27,7 @@ function renderNotify() {
 
 export function showNotify(options: MtNotifyOptions | string = {}): void {
   const opts = typeof options === 'string' ? { message: options } : options
-  state.visible = true
+  state.modelValue = true
   state.message = opts.message ?? ''
   state.type = opts.type ?? 'danger'
   renderNotify()
@@ -46,7 +46,7 @@ export function closeNotify(): void {
     clearTimeout(timer)
     timer = undefined
   }
-  state.visible = false
+  state.modelValue = false
   renderNotify()
 }
 

@@ -1,6 +1,6 @@
 export interface MtImagePreviewProps {
   /** Whether the preview overlay is shown */
-  show?: boolean
+  modelValue?: boolean
   /** Image URLs to preview */
   images?: string[]
   /** Index of the initially shown image */

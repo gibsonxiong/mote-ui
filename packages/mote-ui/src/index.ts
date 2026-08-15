@@ -17,7 +17,7 @@ import { MtPopup } from './components/popup'
 import { MtDialog, confirmDialog, alertDialog } from './components/dialog'
 import { MtActionSheet } from './components/action-sheet'
 import { MtToast, showToast, clearToast } from './components/toast'
-import { MtNotify, showNotify, closeNotify } from './components/notify'
+import { MtNotify, MtNotifyComponent, showNotify, closeNotify } from './components/notify'
 import { MtNavBar } from './components/nav-bar'
 import { MtTabBar, MtTabBarItem } from './components/tab-bar'
 import { MtTabs, MtTabPane } from './components/tabs'
@@ -103,6 +103,7 @@ const components: Plugin[] = [
   MtStep,
   MtPopover,
   MtImagePreview,
+  MtNotifyComponent,
 ]
 
 export { setLocale, useLocale, zhCN, enUS } from './locale'
@@ -139,6 +140,7 @@ export {
   confirmDialog,
   alertDialog,
   MtNotify,
+  MtNotifyComponent,
   showNotify,
   closeNotify,
   MtNavBar,
@@ -207,7 +209,7 @@ export type { MtPopupProps } from './components/popup'
 export type { MtDialogProps, MtDialogOptions } from './components/dialog'
 export type { MtActionSheetProps, MtActionSheetAction } from './components/action-sheet'
 export type { MtToastOptions, MtToastApi, MtToastType, MtToastPosition } from './components/toast'
-export type { MtNotifyOptions, MtNotifyApi, MtNotifyType } from './components/notify'
+export type { MtNotifyOptions, MtNotifyApi, MtNotifyType, MtNotifyProps } from './components/notify'
 export type { MtNavBarProps } from './components/nav-bar'
 export type { MtTabBarProps, MtTabBarItemProps, MtTabBarValue } from './components/tab-bar'
 export type { MtTabsProps, MtTabPaneProps, MtTabsValue, MtTabsType } from './components/tabs'

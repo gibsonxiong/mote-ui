@@ -24,11 +24,11 @@ function openStart() {
 
 ## 基础用法
 
-`v-model:show` 控制显隐，点击遮罩层即可关闭：
+`v-model` 控制显隐，点击遮罩层即可关闭：
 
 <PhonePreview>
   <MtButton size="small" @click="showBasic = true">预览图片</MtButton>
-  <MtImagePreview v-model:show="showBasic" :images="images" />
+  <MtImagePreview v-model="showBasic" :images="images" />
 </PhonePreview>
 
 ```vue
@@ -39,7 +39,7 @@ const images = ['https://example.com/a.jpg', 'https://example.com/b.jpg']
 
 <template>
   <MtButton size="small" @click="show = true">预览图片</MtButton>
-  <MtImagePreview v-model:show="show" :images="images" />
+  <MtImagePreview v-model="show" :images="images" />
 </template>
 ```
 
@@ -49,11 +49,11 @@ const images = ['https://example.com/a.jpg', 'https://example.com/b.jpg']
 
 <PhonePreview>
   <MtButton size="small" @click="openStart">从第二张开始</MtButton>
-  <MtImagePreview v-model:show="startAtSecond" :images="images" :start-position="1" />
+  <MtImagePreview v-model="startAtSecond" :images="images" :start-position="1" />
 </PhonePreview>
 
 ```vue
-<MtImagePreview v-model:show="show" :images="images" :start-position="1" />
+<MtImagePreview v-model="show" :images="images" :start-position="1" />
 ```
 
 ## 关闭按钮
@@ -62,11 +62,11 @@ const images = ['https://example.com/a.jpg', 'https://example.com/b.jpg']
 
 <PhonePreview>
   <MtButton size="small" @click="showCloseable = true">带关闭按钮</MtButton>
-  <MtImagePreview v-model:show="showCloseable" :images="images" closeable />
+  <MtImagePreview v-model="showCloseable" :images="images" closeable />
 </PhonePreview>
 
 ```vue
-<MtImagePreview v-model:show="show" :images="images" closeable />
+<MtImagePreview v-model="show" :images="images" closeable />
 ```
 
 ## API
@@ -75,7 +75,7 @@ const images = ['https://example.com/a.jpg', 'https://example.com/b.jpg']
 
 | 名称 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| v-model:show | 是否显示预览 | `boolean` | `false` |
+| v-model | 是否显示预览 | `boolean` | `false` |
 | images | 图片地址数组 | `string[]` | `[]` |
 | start-position | 初始展示的图片索引 | `number` | `0` |
 | show-index | 是否显示 `1 / n` 索引指示 | `boolean` | `true` |

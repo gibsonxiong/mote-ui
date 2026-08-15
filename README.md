@@ -67,7 +67,7 @@ pnpm lint         # ESLint 检查
 - 阶段 9 · 时间与级联：DatetimePicker、Calendar、Cascader，Form 异步校验增强 ✅ → v0.3
 - 阶段 10 · 滚动场景：List、PullRefresh、BackTop、Swipe、SwipeCell，Popup z-index 自动层级 ✅ → v0.4
 - 阶段 11 · 展示补充：Loading、Progress、NoticeBar、Popover、Collapse、Steps、ImagePreview、CountDown ✅ → v0.5
-- v1.0：全量 API 审计 + Notify 破坏性变更统一后发布正式版
+- v1.0：全量 API 审计 + Notify 破坏性变更统一 ✅ → 发布正式版
 
 ## 许可
 

@@ -1,7 +1,10 @@
 # Notify 消息通知
 
 <script setup>
+import { ref } from 'vue'
 import { MtNotify } from 'mote-ui'
+
+const showComponent = ref(false)
 </script>
 
 顶部滑入的消息通知，函数式调用，适合系统级消息提醒。同一时间只显示一条，重复调用会覆盖。
@@ -47,7 +50,41 @@ MtNotify.show({ message: '等待服务端响应...', duration: 0 })
 MtNotify.close()
 ```
 
+## 组件形式
+
+也可通过 `MtNotifyComponent` 组件用 `v-model` 受控显隐：
+
+<PhonePreview>
+  <MtButton @click="showComponent = true">组件形式</MtButton>
+  <MtNotifyComponent v-model="showComponent" message="来自组件的通知" type="success" />
+</PhonePreview>
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const show = ref(false)
+setTimeout(() => (show.value = false), 3000)
+</script>
+
+<template>
+  <MtNotifyComponent v-model="show" message="来自组件的通知" type="success" />
+</template>
+```
+
+::: tip 破坏性变更
+`1.0.0` 起组件形式的显隐 prop 由 `visible` 改为 `v-model`，与 Popup/Dialog 等组件保持一致。
+:::
+
 ## API
+
+### MtNotifyComponent Props
+
+| 名称 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| v-model | 是否显示通知 | `boolean` | `false` |
+| message | 通知内容 | `string` | `''` |
+| type | 类型 | `'primary' \| 'success' \| 'warning' \| 'danger'` | `'danger'` |
 
 ### MtNotify 方法
 

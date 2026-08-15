@@ -1,27 +1,20 @@
 <script setup lang="ts">
-import type { MtNotifyType } from './types'
+import type { MtNotifyProps } from './types'
 
 defineOptions({
-  name: 'MtNotifyBar',
+  name: 'MtNotifyComponent',
 })
 
-withDefaults(
-  defineProps<{
-    visible: boolean
-    message: string
-    type: MtNotifyType
-  }>(),
-  {
-    visible: false,
-    message: '',
-    type: 'danger',
-  },
-)
+withDefaults(defineProps<MtNotifyProps>(), {
+  modelValue: false,
+  message: '',
+  type: 'danger',
+})
 </script>
 
 <template>
   <Transition name="mt-notify-slide" :duration="200">
-    <div v-if="visible" class="mt-notify" :class="`mt-notify--${type}`">
+    <div v-if="modelValue" class="mt-notify" :class="`mt-notify--${type}`">
       {{ message }}
     </div>
   </Transition>

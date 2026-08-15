@@ -1,4 +1,6 @@
 import { describe, it, expect, afterEach } from 'vitest'
+import { mount } from '@vue/test-utils'
+import MtNotifyComponent from './notify.vue'
 import { MtNotify, showNotify, closeNotify } from './notify'
 
 // Vue captures the native requestAnimationFrame at module load, so fake
@@ -38,5 +40,15 @@ describe('MtNotify', () => {
     closeNotify()
     await wait(400)
     expect(document.body.querySelector('.mt-notify')).toBeNull()
+  })
+
+  it('renders through v-model in component form', async () => {
+    const wrapper = mount(MtNotifyComponent, {
+      props: { modelValue: true, message: '组件形式', type: 'success' },
+    })
+    expect(wrapper.find('.mt-notify--success').text()).toBe('组件形式')
+    await wrapper.setProps({ modelValue: false })
+    await wait(400)
+    expect(wrapper.find('.mt-notify').exists()).toBe(false)
   })
 })

@@ -9,7 +9,7 @@ defineOptions({
 })
 
 const props = withDefaults(defineProps<MtImagePreviewProps>(), {
-  show: false,
+  modelValue: false,
   images: () => [],
   startPosition: 0,
   showIndex: true,
@@ -18,7 +18,7 @@ const props = withDefaults(defineProps<MtImagePreviewProps>(), {
 })
 
 const emit = defineEmits<{
-  'update:show': [value: boolean]
+  'update:modelValue': [value: boolean]
   close: [index: number]
   change: [index: number]
 }>()
@@ -27,7 +27,7 @@ const current = ref(props.startPosition)
 
 // Reset to the start position every time the preview opens
 watch(
-  () => props.show,
+  () => props.modelValue,
   (visible) => {
     if (visible) {
       current.value = props.startPosition
@@ -41,7 +41,7 @@ function handleSwipeChange(index: number) {
 }
 
 function close() {
-  emit('update:show', false)
+  emit('update:modelValue', false)
   emit('close', current.value)
 }
 
@@ -53,7 +53,7 @@ function handleOverlayClick() {
 </script>
 
 <template>
-  <div v-if="show" class="mt-image-preview" @click="handleOverlayClick">
+  <div v-if="modelValue" class="mt-image-preview" @click="handleOverlayClick">
     <MtSwipe
       class="mt-image-preview__swipe"
       :model-value="current"

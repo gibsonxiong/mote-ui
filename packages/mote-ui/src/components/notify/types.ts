@@ -1,5 +1,13 @@
 export type MtNotifyType = 'primary' | 'success' | 'warning' | 'danger'
 
+export interface MtNotifyProps {
+  /** Whether the notify is shown */
+  modelValue?: boolean
+  /** Notify content */
+  message?: string
+  type?: MtNotifyType
+}
+
 export interface MtNotifyOptions {
   /** Notify content */
   message?: string

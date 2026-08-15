@@ -24,11 +24,11 @@ function openStart() {
 
 ## Basic Usage
 
-`v-model:show` controls visibility; tapping the overlay closes the preview:
+`v-model` controls visibility; tapping the overlay closes the preview:
 
 <PhonePreview>
   <MtButton size="small" @click="showBasic = true">Preview Images</MtButton>
-  <MtImagePreview v-model:show="showBasic" :images="images" />
+  <MtImagePreview v-model="showBasic" :images="images" />
 </PhonePreview>
 
 ```vue
@@ -39,7 +39,7 @@ const images = ['https://example.com/a.jpg', 'https://example.com/b.jpg']
 
 <template>
   <MtButton size="small" @click="show = true">Preview Images</MtButton>
-  <MtImagePreview v-model:show="show" :images="images" />
+  <MtImagePreview v-model="show" :images="images" />
 </template>
 ```
 
@@ -49,11 +49,11 @@ const images = ['https://example.com/a.jpg', 'https://example.com/b.jpg']
 
 <PhonePreview>
   <MtButton size="small" @click="openStart">Start at the second</MtButton>
-  <MtImagePreview v-model:show="startAtSecond" :images="images" :start-position="1" />
+  <MtImagePreview v-model="startAtSecond" :images="images" :start-position="1" />
 </PhonePreview>
 
 ```vue
-<MtImagePreview v-model:show="show" :images="images" :start-position="1" />
+<MtImagePreview v-model="show" :images="images" :start-position="1" />
 ```
 
 ## Close Button
@@ -62,11 +62,11 @@ const images = ['https://example.com/a.jpg', 'https://example.com/b.jpg']
 
 <PhonePreview>
   <MtButton size="small" @click="showCloseable = true">With Close Button</MtButton>
-  <MtImagePreview v-model:show="showCloseable" :images="images" closeable />
+  <MtImagePreview v-model="showCloseable" :images="images" closeable />
 </PhonePreview>
 
 ```vue
-<MtImagePreview v-model:show="show" :images="images" closeable />
+<MtImagePreview v-model="show" :images="images" closeable />
 ```
 
 ## API
@@ -75,7 +75,7 @@ const images = ['https://example.com/a.jpg', 'https://example.com/b.jpg']
 
 | Name | Description | Type | Default |
 | --- | --- | --- | --- |
-| v-model:show | Whether the preview is shown | `boolean` | `false` |
+| v-model | Whether the preview is shown | `boolean` | `false` |
 | images | Image URLs | `string[]` | `[]` |
 | start-position | Index of the initially shown image | `number` | `0` |
 | show-index | Show the `1 / n` index indicator | `boolean` | `true` |
