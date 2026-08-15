@@ -128,7 +128,7 @@ export default defineConfig({
   // Deployed to GitHub Pages at https://<owner>.github.io/mote-ui/
   base: '/mote-ui/',
   themeConfig: {
-    socialLinks: [{ icon: 'github', link: 'https://github.com/mote-ui/mote-ui' }],
+    socialLinks: [{ icon: 'github', link: 'https://github.com/gibsonxiong/mote-ui' }],
   },
   locales: {
     root: {
@@ -139,6 +139,7 @@ export default defineConfig({
         nav: [
           { text: '指南', link: '/guide/quick-start' },
           { text: '组件', link: '/components/button' },
+          { text: 'Playground', link: '/playground' },
         ],
         sidebar: zhSidebar,
         outline: { label: '本页目录' },
@@ -153,6 +154,7 @@ export default defineConfig({
         nav: [
           { text: 'Guide', link: '/en/guide/quick-start' },
           { text: 'Components', link: '/en/components/button' },
+          { text: 'Playground', link: '/en/playground' },
         ],
         sidebar: enSidebar,
         outline: { label: 'On this page' },
@@ -163,6 +165,9 @@ export default defineConfig({
     },
   },
   vite: {
+    optimizeDeps: {
+      exclude: ['@vue/repl'],
+    },
     css: {
       preprocessorOptions: {
         scss: {

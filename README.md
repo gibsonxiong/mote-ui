@@ -53,7 +53,7 @@ pnpm lint         # ESLint 检查
 - 阶段 5 · 暗色模式：`[data-theme="dark"]` 语义化 token 覆写 ✅
 - 阶段 6 · 组件级 i18n：ConfigProvider + zh/en 语言包 ✅
 - 阶段 7 · 英文文档：VitePress locales 双语站点 ✅
-- v1.0 后：Playground 在线编辑、社区反馈驱动迭代
+- v1.0 后：Playground 在线编辑（@vue/repl + Monaco，esm.sh 沙箱依赖）✅、社区反馈驱动迭代
 
 ## 许可
 

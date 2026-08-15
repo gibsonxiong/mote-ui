@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@mote-ui/icons": "workspace:*",
+    "@vue/repl": "^4.7.2",
     "mote-ui": "workspace:*",
     "vue": "^3.5.12"
   },
