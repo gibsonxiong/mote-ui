@@ -58,8 +58,8 @@ onMounted(async () => {
   replStore.setImportMap(
     {
       imports: {
-        'mote-ui': `https://esm.sh/mote-ui@${MOTE_VERSION}?external=vue`,
-        '@mote-ui/icons': `https://esm.sh/@mote-ui/icons@${MOTE_VERSION}?external=vue`,
+        'mote-ui': `https://esm.sh/mote-ui@${MOTE_VERSION}?external=vue&no-dts`,
+        '@mote-ui/icons': `https://esm.sh/@mote-ui/icons@${MOTE_VERSION}?external=vue&no-dts`,
       },
     },
     true,
