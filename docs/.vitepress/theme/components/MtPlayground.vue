@@ -6,7 +6,7 @@ defineOptions({
   name: 'MtPlayground',
 })
 
-const MOTE_VERSION = '0.1.0'
+const MOTE_VERSION = '0.1.1'
 
 // The closing tag is assembled via interpolation so the SFC parser
 // does not terminate this script block early.
@@ -48,8 +48,6 @@ onMounted(async () => {
     import('@vue/repl'),
     import('@vue/repl/monaco-editor'),
   ])
-  Repl.value = repl.Repl
-  Monaco.value = monaco.default
 
   const { importMap: builtinImportMap, vueVersion } = repl.useVueImportMap()
   const replStore = repl.useStore(
@@ -69,7 +67,12 @@ onMounted(async () => {
   if (!location.hash) {
     await replStore.setFiles({ 'App.vue': defaultAppVue }, 'App.vue')
   }
+
+  // Assign the store before the Repl component renders so the editor
+  // never initializes against an empty store.
   store.value = replStore
+  Monaco.value = monaco.default
+  Repl.value = repl.Repl
 
   // Persist state to the URL hash for shareable links.
   watchEffect(() => history.replaceState({}, '', replStore.serialize()))
@@ -89,35 +92,3 @@ onMounted(async () => {
     <div v-else class="mt-playground__loading">Loading editor…</div>
   </ClientOnly>
 </template>
-
-<style>
-.mt-playground__loading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 70vh;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 12px;
-  color: var(--vp-c-text-2);
-}
-
-.vue-repl {
-  height: 70vh;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-/* Phone-shell feel for the preview pane (mobile-first library). */
-.vue-repl .right {
-  background:
-    radial-gradient(circle at 50% 0, rgba(128, 128, 128, 0.08), transparent 60%);
-}
-
-.vue-repl .right iframe {
-  max-width: 375px;
-  margin: 0 auto;
-  border-left: 1px solid var(--vp-c-divider);
-  border-right: 1px solid var(--vp-c-divider);
-}
-</style>

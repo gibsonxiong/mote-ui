@@ -1,5 +1,17 @@
 # mote-ui
 
+## 0.1.1
+
+### Patch Changes
+
+- fix: bundle design tokens and base styles into `dist/style.css`
+
+  The entry now imports `styles/index.scss`, so the built stylesheet ships the
+  `:root` CSS variable definitions (`--mt-*` design tokens) together with
+  component styles. Previously `dist/style.css` only contained `var(--mt-*)`
+  consumptions, leaving npm consumers (and the docs Playground sandbox) with
+  unstyled components.
+
 ## 0.1.0
 
 ### Minor Changes

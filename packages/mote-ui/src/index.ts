@@ -1,4 +1,7 @@
 import type { App, Plugin } from 'vue'
+// Bundled into dist/style.css so npm consumers get design tokens + base
+// styles together with component styles.
+import './styles/index.scss'
 import { MtButton } from './components/button'
 import { MtIcon } from './components/icon'
 import { MtCell, MtCellGroup } from './components/cell'

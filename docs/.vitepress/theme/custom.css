@@ -5,3 +5,37 @@
   --vp-button-brand-bg: #409eff;
   --vp-button-brand-hover-bg: #337ecc;
 }
+
+/* Playground (kept at theme level so it loads as a static stylesheet,
+   independent of component-module JS side effects). */
+.mt-playground__loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: max(70vh, 480px);
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 12px;
+  color: var(--vp-c-text-2);
+}
+
+.vue-repl {
+  /* vue-repl.css ships `height: 100%` and is injected after this sheet,
+     so !important is required to win the cascade. */
+  height: max(70vh, 480px) !important;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Phone-shell feel for the preview pane (mobile-first library). */
+.vue-repl .right {
+  background:
+    radial-gradient(circle at 50% 0, rgba(128, 128, 128, 0.08), transparent 60%);
+}
+
+.vue-repl .right iframe {
+  max-width: 375px;
+  margin: 0 auto;
+  border-left: 1px solid var(--vp-c-divider);
+  border-right: 1px solid var(--vp-c-divider);
+}
