@@ -19,6 +19,20 @@ packages/
 docs/               # VitePress 文档站（含手机壳实时预览）
 ```
 
+## 安装
+
+```bash
+npm install mote-ui
+```
+
+```ts
+import { createApp } from 'vue'
+import MoteUI from 'mote-ui'
+import 'mote-ui/dist/style.css'
+
+createApp(App).use(MoteUI).mount('#app')
+```
+
 ## 开发
 
 ```bash
@@ -35,7 +49,7 @@ pnpm lint         # ESLint 检查
 - 阶段 1 · 基础件：Icon、Button、Cell、Grid、Divider ✅
 - 阶段 2 · 表单：Field、Form、Switch、Checkbox、Radio、Picker ✅
 - 阶段 3 · 反馈：Popup、Toast、Dialog、ActionSheet、Notify ✅
-- 阶段 4 · 导航展示：NavBar、TabBar、Tabs、Image、Tag、Badge、Empty、Skeleton ✅ → v0.1 公测
+- 阶段 4 · 导航展示：NavBar、TabBar、Tabs、Image、Tag、Badge、Empty、Skeleton ✅ → v0.1 公测（已发布 npm）
 - 阶段 5 · 暗色模式：`[data-theme="dark"]` 语义化 token 覆写 ✅
 - 阶段 6 · 组件级 i18n：ConfigProvider + zh/en 语言包 ✅
 - 阶段 7 · 英文文档：VitePress locales 双语站点 ✅
