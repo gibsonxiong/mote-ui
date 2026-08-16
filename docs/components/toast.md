@@ -8,6 +8,8 @@ import { showToast, MtToast } from 'mote-ui'
 
 ## 基础用法
 
+`showToast` 直接传入字符串：
+
 <PhonePreview>
   <MtButton @click="showToast('这是一条提示')">文字提示</MtButton>
 </PhonePreview>
@@ -20,10 +22,15 @@ showToast('这是一条提示')
 
 ## 成功 / 失败 / 加载
 
+`MtToast` 提供语义化方法；`loading` 不会自动关闭，需手动 `clear`：
+
 <PhonePreview>
-  <MtButton @click="MtToast.success('操作成功')">成功</MtButton>
-  <MtButton @click="MtToast.fail('操作失败')">失败</MtButton>
-  <MtButton @click="MtToast.loading('加载中...')">加载</MtButton>
+  <div style="display: flex; gap: 8px">
+    <MtButton size="small" @click="MtToast.success('操作成功')">成功</MtButton>
+    <MtButton size="small" @click="MtToast.fail('操作失败')">失败</MtButton>
+    <MtButton size="small" @click="MtToast.loading('加载中...')">加载</MtButton>
+    <MtButton size="small" @click="MtToast.clear()">手动关闭</MtButton>
+  </div>
 </PhonePreview>
 
 ```js
@@ -35,18 +42,45 @@ MtToast.loading('加载中...') // 不会自动关闭
 MtToast.clear() // 手动关闭
 ```
 
-## 自定义配置
+## 显示位置
+
+`position` 支持 `top` / `middle` / `bottom`：
 
 <PhonePreview>
-  <MtButton @click="showToast({ message: '顶部提示', position: 'top' })">顶部位置</MtButton>
-  <MtButton @click="showToast({ message: '5 秒后关闭', duration: 5000 })">自定义时长</MtButton>
+  <div style="display: flex; gap: 8px">
+    <MtButton size="small" @click="showToast({ message: '顶部提示', position: 'top' })">顶部</MtButton>
+    <MtButton size="small" @click="showToast({ message: '中间提示', position: 'middle' })">中间</MtButton>
+    <MtButton size="small" @click="showToast({ message: '底部提示', position: 'bottom' })">底部</MtButton>
+  </div>
 </PhonePreview>
 
 ```js
 showToast({ message: '顶部提示', position: 'top' })
-showToast({ message: '5 秒后关闭', duration: 5000 })
-showToast({ message: '禁止操作', overlay: true }) // 透明遮罩阻断交互
+showToast({ message: '中间提示', position: 'middle' })
+showToast({ message: '底部提示', position: 'bottom' })
 ```
+
+## 时长与遮罩
+
+`duration` 自定义自动关闭时长（`0` 不关闭）；`overlay` 显示透明遮罩阻断页面交互：
+
+<PhonePreview>
+  <div style="display: flex; flex-direction: column; gap: 8px">
+    <MtButton @click="showToast({ message: '5 秒后关闭', duration: 5000 })">5 秒后关闭</MtButton>
+    <MtButton @click="showToast({ message: '阻断交互中', overlay: true, duration: 1500 })">遮罩阻断交互</MtButton>
+  </div>
+</PhonePreview>
+
+```js
+showToast({ message: '5 秒后关闭', duration: 5000 })
+showToast({ message: '阻断交互中', overlay: true, duration: 1500 })
+```
+
+## 交互说明
+
+- 同一时间只显示一个 Toast，重复调用覆盖当前内容
+- `loading` 类型默认 `duration: 0`（不自动关闭），需调用 `clear`
+- `overlay: true` 时透明遮罩会阻断页面交互，直到 Toast 关闭
 
 ## API
 

@@ -25,8 +25,10 @@ const namedActive = ref('home')
 
 ```vue
 <script setup>
+import { ref } from 'vue'
+
 const active = ref(0)
-</script>
+<\/script>
 
 <template>
   <MtTabBar v-model="active">
@@ -59,18 +61,16 @@ const active = ref(0)
 </MtTabBar>
 ```
 
-## 命名与图标插槽
+## 命名与图标
 
-通过 `name` 使用字符串标识；`icon` 插槽可放入任意图标内容：
+通过 `name` 使用字符串标识；`icon` 使用内置图标名，或通过插槽放任意内容：
 
 <PhonePreview>
   <MtTabBar v-model="namedActive">
     <MtTabBarItem name="home" title="首页">
       <template #icon>🏠</template>
     </MtTabBarItem>
-    <MtTabBarItem name="search" title="发现">
-      <template #icon>🔍</template>
-    </MtTabBarItem>
+    <MtTabBarItem name="search" title="发现" icon="arrow-up" />
     <MtTabBarItem name="mine" title="我的">
       <template #icon>👤</template>
     </MtTabBarItem>
@@ -82,8 +82,36 @@ const active = ref(0)
   <MtTabBarItem name="home" title="首页">
     <template #icon>🏠</template>
   </MtTabBarItem>
+  <MtTabBarItem name="search" title="发现" icon="arrow-up" />
 </MtTabBar>
 ```
+
+## 禁用项
+
+`disabled` 的项不可点击：
+
+<PhonePreview>
+  <MtTabBar :model-value="0">
+    <MtTabBarItem title="首页" />
+    <MtTabBarItem title="发现" />
+    <MtTabBarItem title="消息" disabled />
+  </MtTabBar>
+</PhonePreview>
+
+```vue
+<MtTabBar>
+  <MtTabBarItem title="首页" />
+  <MtTabBarItem title="发现" />
+  <MtTabBarItem title="消息" disabled />
+</MtTabBar>
+```
+
+## 交互说明
+
+- 未绑定 `v-model` 时默认激活第一项
+- `fixed` 固定到页面底部，配合 `placeholder` 渲染等高的占位元素避免遮挡内容
+- `safe-area-inset-bottom` 适配底部安全区（全面屏手势条）
+- `change` 在切换到不同项时触发，参数为 `name` 或索引
 
 ## API
 

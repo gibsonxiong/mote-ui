@@ -8,12 +8,15 @@ const fieldDemo = reactive({
   password: '',
   phone: '',
   intro: '',
+  code: '',
 })
 </script>
 
 移动端表单输入框，左侧标签、右侧输入的 Cell 形态，支持文本域、密码、数字键盘等类型。
 
 ## 基础用法
+
+`label` 左侧标签，`clearable` 聚焦且非空时显示清除按钮：
 
 <PhonePreview>
   <div style="background: #fff">
@@ -31,7 +34,7 @@ const fieldDemo = reactive({
 
 ## 数字键盘
 
-`type="digit"` 时唤起数字键盘并过滤非数字字符：
+`type="digit"` 唤起数字键盘并过滤非数字字符，`show-word-limit` 显示字数统计：
 
 <PhonePreview>
   <div style="background: #fff">
@@ -39,13 +42,84 @@ const fieldDemo = reactive({
   </div>
 </PhonePreview>
 
+```vue
+<MtField v-model="phone" label="手机号" type="digit" placeholder="请输入手机号" maxlength="11" show-word-limit />
+```
+
 ## 文本域
+
+`type="textarea"` 多行文本，`rows` 控制行数：
 
 <PhonePreview>
   <div style="background: #fff">
     <MtField v-model="fieldDemo.intro" label="简介" type="textarea" rows="3" placeholder="请输入个人简介" maxlength="50" show-word-limit />
   </div>
 </PhonePreview>
+
+```vue
+<MtField v-model="intro" label="简介" type="textarea" rows="3" placeholder="请输入个人简介" maxlength="50" show-word-limit />
+```
+
+## 禁用与只读
+
+`disabled` 禁用不可编辑，`readonly` 只读：
+
+<PhonePreview>
+  <div style="background: #fff">
+    <MtField label="禁用" model-value="禁用内容" disabled />
+    <MtField label="只读" model-value="只读内容" readonly :border="false" />
+  </div>
+</PhonePreview>
+
+```vue
+<MtField label="禁用" model-value="禁用内容" disabled />
+<MtField label="只读" model-value="只读内容" readonly />
+```
+
+## 必填与错误
+
+`required` 标签前显示必填星号，`error` 错误样式（文字变红）：
+
+<PhonePreview>
+  <div style="background: #fff">
+    <MtField v-model="fieldDemo.username" label="用户名" placeholder="请输入" required />
+    <MtField v-model="fieldDemo.username" label="用户名" placeholder="输入有误" error :border="false" />
+  </div>
+</PhonePreview>
+
+```vue
+<MtField v-model="username" label="用户名" placeholder="请输入" required />
+<MtField v-model="username" label="用户名" placeholder="输入有误" error />
+```
+
+## 右侧插槽
+
+`right` 插槽自定义输入框右侧内容，如验证码按钮：
+
+<PhonePreview>
+  <div style="background: #fff">
+    <MtField v-model="fieldDemo.code" label="验证码" type="digit" placeholder="请输入验证码">
+      <template #right>
+        <MtButton size="small" type="primary" plain>获取验证码</MtButton>
+      </template>
+    </MtField>
+  </div>
+</PhonePreview>
+
+```vue
+<MtField v-model="code" label="验证码" type="digit" placeholder="请输入验证码">
+  <template #right>
+    <MtButton size="small" type="primary" plain>获取验证码</MtButton>
+  </template>
+</MtField>
+```
+
+## 交互说明
+
+- `type="digit"` 唤起数字键盘并自动过滤非数字字符
+- `clearable` 仅在聚焦、非空、非禁用/只读时显示清除按钮
+- `show-word-limit` 需配合 `maxlength` 使用
+- `error` 与 `required` 通常由 `MtForm` 校验驱动，也可手动设置
 
 ## API
 

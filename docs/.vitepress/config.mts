@@ -20,6 +20,7 @@ const zhSidebar = [
       { text: 'Cell 单元格', link: '/components/cell' },
       { text: 'Grid 宫格', link: '/components/grid' },
       { text: 'Divider 分割线', link: '/components/divider' },
+      { text: 'ConfigProvider 全局配置', link: '/components/config-provider' },
     ],
   },
   {

@@ -29,6 +29,21 @@ function handleSubmit() {
 function handleReset() {
   formRef.value?.resetFields()
 }
+
+const asyncForm = reactive({ nickname: '' })
+
+function checkNickname(rule, value) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (value === 'admin') reject(new Error('昵称已被占用'))
+      else resolve()
+    }, 500)
+  })
+}
+
+const asyncRules = {
+  nickname: [{ validator: checkNickname, trigger: 'blur' }],
+}
 </script>
 
 由输入框、开关、选择器等控件组成的数据录入区域，内置轻量校验引擎，API 对齐 Element Plus（`model` / `rules` / `validate` / `resetFields`）。
@@ -91,6 +106,79 @@ function handleSubmit() {
 </template>
 ```
 
+## 自定义校验器
+
+`validator` 支持异步校验，返回 reject 或抛错即失败；失焦时自动触发：
+
+<PhonePreview>
+  <MtForm :model="asyncForm" :rules="asyncRules">
+    <MtFormItem prop="nickname" label="昵称">
+      <MtField v-model="asyncForm.nickname" placeholder="输入 admin 会校验失败" />
+    </MtFormItem>
+  </MtForm>
+</PhonePreview>
+
+```vue
+<script setup>
+import { reactive } from 'vue'
+
+const model = reactive({ nickname: '' })
+
+const rules = {
+  nickname: [{
+    validator: (rule, value) => new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (value === 'admin') reject(new Error('昵称已被占用'))
+        else resolve()
+      }, 500)
+    }),
+    trigger: 'blur',
+  }],
+}
+<\/script>
+
+<template>
+  <MtForm :model="model" :rules="rules">
+    <MtFormItem prop="nickname" label="昵称">
+      <MtField v-model="model.nickname" placeholder="输入 admin 会校验失败" />
+    </MtFormItem>
+  </MtForm>
+</template>
+```
+
+## 必填与星号
+
+`required` 显示必填星号并做非空校验；`hide-required-asterisk` 隐藏星号：
+
+<PhonePreview>
+  <div>
+    <MtForm :model="formDemo">
+      <MtFormItem prop="name" label="必填" required>
+        <MtField v-model="formDemo.name" placeholder="失焦触发非空校验" />
+      </MtFormItem>
+    </MtForm>
+    <MtForm :model="formDemo" hide-required-asterisk>
+      <MtFormItem prop="name" label="必填（隐藏星号）" required>
+        <MtField v-model="formDemo.name" placeholder="星号被隐藏" />
+      </MtFormItem>
+    </MtForm>
+  </div>
+</PhonePreview>
+
+```vue
+<MtForm :model="model">
+  <MtFormItem prop="name" label="必填" required>
+    <MtField v-model="model.name" placeholder="失焦触发非空校验" />
+  </MtFormItem>
+</MtForm>
+
+<MtForm :model="model" hide-required-asterisk>
+  <MtFormItem prop="name" label="必填（隐藏星号）" required>
+    <MtField v-model="model.name" placeholder="星号被隐藏" />
+  </MtFormItem>
+</MtForm>
+```
+
 ## 校验规则
 
 内置零依赖的轻量校验器，支持的规则字段：
@@ -106,6 +194,13 @@ function handleSubmit() {
 | validator | 自定义校验函数，抛错或 reject 即失败 | `(rule, value) => void \| boolean \| Promise` |
 
 控件（Field / Switch / Checkbox / Radio / Picker）在 `MtFormItem` 内会自动上报 `change` / `blur` 触发对应校验。
+
+## 交互说明
+
+- 校验失败时错误文案显示在对应表单项下方，控件进入错误样式
+- `validate` 成功 resolve `true`，失败 reject `{ prop: message }`
+- `resetFields` 重置为初始值并清除校验状态；`clearValidate` 仅清除错误文案
+- 异步校验带序号保护，慢的旧请求不会覆盖新结果
 
 ## API
 
