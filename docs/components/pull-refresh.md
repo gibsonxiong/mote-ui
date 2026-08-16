@@ -47,24 +47,54 @@ async function onRefresh() {
 </template>
 ```
 
-## 与 List 组合
+## 禁用
+
+`disabled` 禁用下拉刷新：
+
+<PhonePreview>
+  <MtPullRefresh v-model:loading="refreshing" disabled>
+    <div style="padding: 16px; text-align: center; color: var(--mt-text-color-secondary)">
+      禁用下拉刷新
+    </div>
+  </MtPullRefresh>
+</PhonePreview>
 
 ```vue
-<template>
-  <MtPullRefresh v-model:loading="refreshing" @refresh="onRefresh">
-    <MtList v-model:loading="loading" :finished="finished" @load="onLoad">
-      <!-- ... -->
-    </MtList>
+<MtPullRefresh v-model:loading="loading" disabled @refresh="onRefresh">
+  <!-- 列表内容 -->
+</MtPullRefresh>
+```
+
+## 自定义成功文案
+
+`success-text` 自定义成功提示，`success-duration` 控制展示时长（设为 `0` 关闭）：
+
+<PhonePreview>
+  <MtPullRefresh v-model:loading="refreshing" success-text="刷新成功啦" @refresh="onRefresh">
+    <div style="padding: 16px; text-align: center; color: var(--mt-text-color-secondary)">
+      下拉试试
+    </div>
   </MtPullRefresh>
-</template>
+</PhonePreview>
+
+```vue
+<MtPullRefresh
+  v-model:loading="loading"
+  success-text="刷新成功啦"
+  :success-duration="1000"
+  @refresh="onRefresh"
+>
+  <!-- 列表内容 -->
+</MtPullRefresh>
 ```
 
 ## 交互说明
 
 - 仅在容器滚动到顶部时下拉才会生效
 - 下拉距离超过 `head-height` 时提示「释放即可刷新」，释放后进入加载态
-- 加载结束（`loading` 变为 `false`）后短暂展示成功提示再收起，可用 `success-duration` 调整，设为 0 关闭
+- 加载结束后短暂展示成功提示再收起，可用 `success-duration` 调整
 - `head` 插槽可自定义整个提示区，通过插槽 prop `status` 区分状态
+- 常与 `MtList` 组合：`MtPullRefresh` 包裹 `MtList` 实现下拉刷新 + 上拉加载
 
 ## API
 

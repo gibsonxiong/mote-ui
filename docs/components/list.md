@@ -18,9 +18,17 @@ function onLoad() {
     if (page >= 3) finished.value = true
   }, 500)
 }
+
+const errorItems = ref(['项目 1', '项目 2', '项目 3'])
+const hasError = ref(true)
+
+function onErrorLoad() {
+  hasError.value = false
+  errorItems.value.push('项目 4', '项目 5')
+}
 </script>
 
-瀑布流滚动加载列表。底部哨兵进入视口附近时自动触发 `load`，直到内容撑满或标记加载完成。
+滚动加载列表。底部哨兵进入视口附近时自动触发 `load`，直到内容撑满或标记加载完成。
 
 ## 基础用法
 
@@ -63,14 +71,51 @@ async function onLoad() {
 
 ## 错误重试
 
-请求失败时将 `error` 置为 `true`，列表会展示错误文案，点击后通过 `update:error` 清除错误并重新触发加载：
+加载失败时将 `error` 置为 `true`，底部显示错误文案，点击后触发 `load` 重试：
+
+<PhonePreview>
+  <MtList v-model:error="hasError" @load="onErrorLoad">
+    <div
+      v-for="item in errorItems"
+      :key="item"
+      style="padding: 12px 16px; border-bottom: 1px solid var(--mt-border-color)"
+    >
+      {{ item }}
+    </div>
+  </MtList>
+</PhonePreview>
 
 ```vue
-<template>
-  <MtList v-model:loading="loading" v-model:error="error" :finished="finished" @load="onLoad">
-    <!-- ... -->
+<MtList v-model:loading="loading" v-model:error="error" :finished="finished" @load="onLoad">
+  <div v-for="item in items" :key="item.id">{{ item.title }}</div>
+</MtList>
+```
+
+## 自定义文案
+
+`loading-text` / `finished-text` / `error-text` 自定义底部提示文案：
+
+<PhonePreview>
+  <MtList :finished="true" finished-text="—— 没有更多数据了 ——">
+    <div
+      v-for="item in ['项目 1', '项目 2', '项目 3']"
+      :key="item"
+      style="padding: 12px 16px; border-bottom: 1px solid var(--mt-border-color)"
+    >
+      {{ item }}
+    </div>
   </MtList>
-</template>
+</PhonePreview>
+
+```vue
+<MtList
+  :finished="true"
+  loading-text="拼命加载中..."
+  finished-text="没有更多数据了"
+  error-text="加载失败，点击重试"
+>
+  <!-- ... -->
+</MtList>
 ```
 
 ## 交互说明

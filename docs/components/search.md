@@ -1,7 +1,7 @@
 # Search 搜索
 
 <script setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 
 const searchDemo = reactive({
   basic: '',
@@ -9,8 +9,10 @@ const searchDemo = reactive({
   action: '',
 })
 
+const searchLog = ref('')
+
 function handleSearch(value) {
-  console.log('search', value)
+  searchLog.value = `search: ${value}`
 }
 </script>
 
@@ -23,27 +25,73 @@ function handleSearch(value) {
 </PhonePreview>
 
 ```vue
-<template>
-  <MtSearch v-model="keyword" @search="onSearch" />
-</template>
+<MtSearch v-model="keyword" @search="onSearch" />
 ```
 
 ## 圆形与操作按钮
 
+`shape="round"` 圆角形状，`show-action` 显示右侧操作按钮：
+
 <PhonePreview>
-  <div style="display: flex; flex-direction: column">
+  <div style="display: flex; flex-direction: column; gap: 8px">
     <MtSearch v-model="searchDemo.round" shape="round" />
     <MtSearch v-model="searchDemo.action" show-action @search="handleSearch" />
   </div>
 </PhonePreview>
 
 ```vue
-<template>
-  <MtSearch v-model="keyword" shape="round" />
-  <!-- 右侧操作按钮默认文案为「取消」，点击触发 cancel 事件 -->
-  <MtSearch v-model="keyword" show-action action-text="搜索" />
-</template>
+<MtSearch v-model="keyword" shape="round" />
+<MtSearch v-model="keyword" show-action action-text="搜索" />
 ```
+
+## 禁用与只读
+
+`disabled` 禁用不可编辑，`readonly` 只读：
+
+<PhonePreview>
+  <div style="display: flex; flex-direction: column; gap: 8px">
+    <MtSearch model-value="禁用状态" disabled />
+    <MtSearch model-value="只读状态" readonly />
+  </div>
+</PhonePreview>
+
+```vue
+<MtSearch model-value="禁用状态" disabled />
+<MtSearch model-value="只读状态" readonly />
+```
+
+## 事件
+
+`search` 回车触发，`cancel` 点击操作按钮，`clear` 点击清除图标：
+
+<PhonePreview>
+  <div style="display: flex; flex-direction: column; gap: 8px">
+    <MtSearch
+      v-model="searchDemo.basic"
+      show-action
+      @search="handleSearch"
+      @cancel="searchLog = 'cancel'"
+      @clear="searchLog = 'clear'"
+    />
+    <div style="padding: 0 16px; font-size: 12px; color: var(--mt-text-color-secondary)">事件：{{ searchLog || '-' }}</div>
+  </div>
+</PhonePreview>
+
+```vue
+<MtSearch
+  v-model="keyword"
+  show-action
+  @search="onSearch"
+  @cancel="onCancel"
+  @clear="onClear"
+/>
+```
+
+## 交互说明
+
+- `placeholder` 默认取语言包 `search.placeholder`，可通过 `MtConfigProvider` 切换
+- `clearable` 默认开启，值非空时显示清除图标
+- 在 `MtFormItem` 内会自动触发对应表单校验
 
 ## API
 

@@ -4,6 +4,8 @@
 import { ref } from 'vue'
 
 const cellPosition = ref('none')
+const controlledRef = ref()
+const controlledPosition = ref('none')
 </script>
 
 左右滑动单元格，露出两侧的操作按钮，常用于列表项的删除、收藏等快捷操作。
@@ -42,6 +44,19 @@ const cellPosition = ref('none')
 
 `v-model` 绑定展开方向（`none` / `left` / `right`），也可通过 ref 调用 `open` / `close`：
 
+<PhonePreview>
+  <div style="display: flex; gap: 8px; margin-bottom: 8px">
+    <MtButton size="small" @click="controlledRef?.open('right')">展开右侧</MtButton>
+    <MtButton size="small" @click="controlledRef?.close()">收起</MtButton>
+  </div>
+  <MtSwipeCell ref="controlledRef" v-model="controlledPosition">
+    <div style="display: flex; align-items: center; height: 44px; padding: 0 16px">受控单元格</div>
+    <template #right>
+      <div style="display: flex; align-items: center; padding: 0 16px; height: 44px; color: #fff; background-color: var(--mt-color-danger)">删除</div>
+    </template>
+  </MtSwipeCell>
+</PhonePreview>
+
 ```vue
 <script setup>
 import { ref } from 'vue'
@@ -59,6 +74,25 @@ function openRight() {
     <!-- ... -->
   </MtSwipeCell>
 </template>
+```
+
+## 禁用
+
+`disabled` 时不响应拖动：
+
+<PhonePreview>
+  <MtSwipeCell disabled>
+    <div style="display: flex; align-items: center; height: 44px; padding: 0 16px">禁用单元格（无法滑动）</div>
+    <template #right>
+      <div style="display: flex; align-items: center; padding: 0 16px; height: 44px; color: #fff; background-color: var(--mt-color-danger)">删除</div>
+    </template>
+  </MtSwipeCell>
+</PhonePreview>
+
+```vue
+<MtSwipeCell disabled>
+  <!-- ... -->
+</MtSwipeCell>
 ```
 
 ## 交互说明

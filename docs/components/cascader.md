@@ -5,6 +5,8 @@ import { ref } from 'vue'
 
 const areaValue = ref([])
 const customValue = ref([])
+const disabledValue = ref([])
+const cascaderEvent = ref('')
 
 const areas = [
   {
@@ -89,6 +91,33 @@ const options = [
     title="选择分类"
   />
 </template>
+```
+
+## 禁用
+
+`disabled` 禁用整个级联选择：
+
+<PhonePreview>
+  <MtCascader v-model="disabledValue" :options="areas" title="选择地区" disabled />
+</PhonePreview>
+
+```vue
+<MtCascader v-model="value" :options="options" title="选择地区" disabled />
+```
+
+## 选择事件
+
+选中叶子节点触发 `change`，参数为完整路径数组：
+
+<PhonePreview>
+  <div>
+    <MtCascader v-model="areaValue" :options="areas" title="选择地区" @change="cascaderEvent = $event.join(' / ')" />
+    <div style="padding: 8px 16px; font-size: 12px; color: var(--mt-text-color-secondary)">change：{{ cascaderEvent || '-' }}</div>
+  </div>
+</PhonePreview>
+
+```vue
+<MtCascader v-model="value" :options="options" title="选择地区" @change="onChange" />
 ```
 
 ## 交互说明

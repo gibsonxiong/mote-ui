@@ -37,6 +37,33 @@
 <MtIcon name="success" size="28" />
 ```
 
+## 自定义插槽
+
+未指定 `name` 时渲染默认插槽内容：
+
+<PhonePreview>
+  <div style="display: flex; align-items: center; gap: 16px">
+    <MtIcon>
+      <span style="font-size: 20px">🎉</span>
+    </MtIcon>
+    <MtIcon>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 8v8M8 12h8" />
+      </svg>
+    </MtIcon>
+  </div>
+</PhonePreview>
+
+```vue
+<MtIcon>
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <circle cx="12" cy="12" r="9" />
+    <path d="M12 8v8M8 12h8" />
+  </svg>
+</MtIcon>
+```
+
 ## API
 
 ### Props
