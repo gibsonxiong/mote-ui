@@ -6,6 +6,8 @@ dist/
 *.tsbuildinfo
 docs/.vitepress/dist/
 docs/.vitepress/cache/
+docs/.vitepress/.temp/
+docs/.vitepress/*.timestamp-*.mjs
 
 # Logs
 *.log
