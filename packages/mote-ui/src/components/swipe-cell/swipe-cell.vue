@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, ref, watch } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import type { MtSwipeCellPosition, MtSwipeCellProps } from './types'
 
 defineOptions({
@@ -44,6 +44,15 @@ const offset = ref(offsetFor(position.value))
 
 watch(position, (value) => {
   offset.value = offsetFor(value)
+})
+
+// offsetFor() reads offsetWidth, which is unavailable during setup (the
+// left/right refs aren't attached yet). Recompute once after mount so a cell
+// rendered with an already-open modelValue applies the correct offset.
+onMounted(() => {
+  nextTick(() => {
+    offset.value = offsetFor(position.value)
+  })
 })
 
 const wrapperStyle = computed(() => ({
@@ -96,7 +105,10 @@ function handleTouchEnd() {
   // Crossing half of a side's width commits to opening it
   if (offset.value > sideWidth('left') / 2) setPosition('left')
   else if (offset.value < -sideWidth('right') / 2) setPosition('right')
-  else offset.value = 0
+  // Otherwise snap back to the current position's offset (0 when closed, the
+  // open width when already open) instead of hardcoding 0 — which left an
+  // open cell visually closed while `position` stayed open.
+  else offset.value = offsetFor(position.value)
 }
 
 function handleDocumentClick(event: MouseEvent) {
@@ -152,20 +164,32 @@ defineExpose({ open, close })
   background-color: var(--mt-bg-color);
 
   &__wrapper {
-    display: flex;
+    position: relative;
+    width: 100%;
     transition: transform var(--mt-duration-fast) var(--mt-easing-standard);
   }
 
   &__left,
   &__right {
-    flex-shrink: 0;
+    position: absolute;
+    top: 0;
+    height: 100%;
     display: flex;
     align-items: stretch;
   }
 
+  &__left {
+    left: 0;
+    transform: translateX(-100%);
+  }
+
+  &__right {
+    right: 0;
+    transform: translateX(100%);
+  }
+
   &__content {
-    flex: 1;
-    min-width: 0;
+    width: 100%;
   }
 }
 </style>

@@ -1,5 +1,5 @@
 import { describe, it, expect, afterEach } from 'vitest'
-import { mount } from '@vue/test-utils'
+import { mount, flushPromises } from '@vue/test-utils'
 import { h } from 'vue'
 import MtSwipeCell from './swipe-cell.vue'
 
@@ -111,5 +111,26 @@ describe('MtSwipeCell', () => {
     await drag(wrapper, 100, 10)
     expect(wrapper.emitted('update:modelValue')).toBeUndefined()
     expect(wrapper.classes()).toContain('is-disabled')
+  })
+
+  it('applies the offset when mounted already open', async () => {
+    const wrapper = mountCell({ modelValue: 'right' })
+    wrappers.push(wrapper)
+    mockSideWidths(wrapper)
+    await flushPromises()
+    const style = (wrapper.find('.mt-swipe-cell__wrapper').element as HTMLElement).style
+    expect(style.transform).toBe('translateX(-80px)')
+  })
+
+  it('snaps back to open when released without crossing the opposite threshold', async () => {
+    const wrapper = mountCell({ modelValue: 'right' })
+    wrappers.push(wrapper)
+    mockSideWidths(wrapper)
+    await flushPromises()
+    // drag right by 60px: offset goes -80 -> -20, within neither threshold
+    await drag(wrapper, 0, 60)
+    const style = (wrapper.find('.mt-swipe-cell__wrapper').element as HTMLElement).style
+    expect(style.transform).toBe('translateX(-80px)')
+    expect(wrapper.emitted('update:modelValue')).toBeUndefined()
   })
 })
