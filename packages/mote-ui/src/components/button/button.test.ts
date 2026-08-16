@@ -14,6 +14,11 @@ describe('MtButton', () => {
     expect(wrapper.classes()).toContain('mt-button--large')
   })
 
+  it('applies link class', () => {
+    const wrapper = mount(MtButton, { props: { link: true } })
+    expect(wrapper.classes()).toContain('mt-button--link')
+  })
+
   it('emits click when enabled', async () => {
     const wrapper = mount(MtButton)
     await wrapper.trigger('click')

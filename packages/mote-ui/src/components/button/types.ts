@@ -9,6 +9,8 @@ export interface MtButtonProps {
   round?: boolean
   /** Fill the width of the parent container */
   block?: boolean
+  /** Link style: no background or border, colored text */
+  link?: boolean
   disabled?: boolean
   loading?: boolean
 }

@@ -13,6 +13,7 @@ const props = withDefaults(defineProps<MtButtonProps>(), {
   plain: false,
   round: false,
   block: false,
+  link: false,
   disabled: false,
   loading: false,
 })
@@ -29,6 +30,7 @@ const classes = computed(() => [
     'mt-button--plain': props.plain,
     'mt-button--round': props.round,
     'mt-button--block': props.block,
+    'mt-button--link': props.link,
     'is-disabled': props.disabled,
     'is-loading': props.loading,
   },
@@ -150,6 +152,31 @@ function handleClick(event: MouseEvent) {
   &--block {
     display: flex;
     width: 100%;
+  }
+
+  // ---- Link ----
+  &--link {
+    background-color: transparent;
+    border-color: transparent;
+    padding: 0;
+    border-radius: 0;
+    color: var(--mt-color-primary);
+
+    &.mt-button--success {
+      color: var(--mt-color-success);
+    }
+
+    &.mt-button--warning {
+      color: var(--mt-color-warning);
+    }
+
+    &.mt-button--danger {
+      color: var(--mt-color-danger);
+    }
+
+    &.mt-button--info {
+      color: var(--mt-color-info);
+    }
   }
 
   // ---- States ----
