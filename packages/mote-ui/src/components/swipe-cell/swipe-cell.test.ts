@@ -1,6 +1,6 @@
 import { describe, it, expect, afterEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
-import { h } from 'vue'
+import { h, ref } from 'vue'
 import MtSwipeCell from './swipe-cell.vue'
 
 function mountCell(props: Record<string, unknown> = {}) {
@@ -102,6 +102,32 @@ describe('MtSwipeCell', () => {
     expect(wrapper.emitted('open')?.at(-1)).toEqual(['right'])
     ;(wrapper.vm as unknown as { close: () => void }).close()
     expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual(['none'])
+  })
+
+  it('stays open when opened programmatically by a button click', async () => {
+    const wrapper = mount({
+      components: { MtSwipeCell },
+      setup() {
+        const cellRef = ref()
+        return { cellRef }
+      },
+      template: `
+        <div>
+          <button id="open-btn" @click="cellRef?.open('right')">open</button>
+          <MtSwipeCell ref="cellRef">
+            <div class="content">cell content</div>
+            <template #right><div class="right-action">delete</div></template>
+          </MtSwipeCell>
+        </div>
+      `,
+      attachTo: document.body,
+    })
+    wrappers.push(wrapper)
+    const rightEl = wrapper.find('.mt-swipe-cell__right').element as HTMLElement
+    Object.defineProperty(rightEl, 'offsetWidth', { value: 80, configurable: true })
+    await wrapper.find('#open-btn').trigger('click')
+    const style = (wrapper.find('.mt-swipe-cell__wrapper').element as HTMLElement).style
+    expect(style.transform).toBe('translateX(-80px)')
   })
 
   it('ignores drags when disabled', async () => {

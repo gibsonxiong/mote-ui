@@ -60,7 +60,9 @@ function handleHeaderClick() {
     </div>
     <div class="mt-collapse-item__wrapper">
       <div class="mt-collapse-item__body">
-        <slot />
+        <div class="mt-collapse-item__content">
+          <slot />
+        </div>
       </div>
     </div>
   </div>
@@ -106,8 +108,12 @@ function handleHeaderClick() {
   }
 
   &__body {
-    padding: 0 var(--mt-spacing-md) 12px;
+    min-height: 0;
     overflow: hidden;
+  }
+
+  &__content {
+    padding: 0 var(--mt-spacing-md) 12px;
     font-size: var(--mt-font-size-sm);
     color: var(--mt-text-color-secondary);
   }

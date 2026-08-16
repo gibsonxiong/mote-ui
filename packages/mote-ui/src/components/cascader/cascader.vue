@@ -95,15 +95,20 @@ watch(
   },
 )
 
-const tabs = computed(() =>
-  Array.from({ length: selected.value.length + 1 }, (_, level) => ({
+const tabs = computed(() => {
+  const last = selected.value[selected.value.length - 1]
+  // Only append the trailing placeholder tab when the path can still drill
+  // deeper (empty path, or the last selected option is a branch). A completed
+  // leaf selection has no deeper level, so no empty "please select" tab.
+  const canDrill = selected.value.length === 0 || (last !== undefined && hasChildren(last))
+  return Array.from({ length: selected.value.length + (canDrill ? 1 : 0) }, (_, level) => ({
     level,
     text:
       level < selected.value.length
         ? getLabel(selected.value[level])
         : props.placeholder ?? t('cascader.placeholder'),
-  })),
-)
+  }))
+})
 
 const paneOptions = computed(() => {
   let levelOptions = props.options

@@ -64,6 +64,14 @@ describe('MtCascader', () => {
     expect(wrapper.find('.mt-cascader__option.is-selected').text()).toContain('杭州')
   })
 
+  it('shows no placeholder tab once a leaf is selected', async () => {
+    const wrapper = mountCascader()
+    await wrapper.findAll('.mt-cascader__option')[0].trigger('click')
+    await wrapper.findAll('.mt-cascader__option')[0].trigger('click')
+    const tabs = wrapper.findAll('.mt-cascader__tab')
+    expect(tabs.map((tab) => tab.text())).toEqual(['浙江', '杭州'])
+  })
+
   it('switches levels by clicking tabs', async () => {
     const wrapper = mountCascader({ modelValue: ['zj', 'hz'] })
     await wrapper.findAll('.mt-cascader__tab')[0].trigger('click')

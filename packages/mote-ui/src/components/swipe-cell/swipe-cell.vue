@@ -69,6 +69,10 @@ function setPosition(value: MtSwipeCellPosition) {
 }
 
 function open(value: 'left' | 'right') {
+  // Mark the interaction so the same click/tap that opened the cell (e.g. a
+  // button) is ignored by the document click handler, which would otherwise
+  // immediately close the cell it just opened.
+  lastTouchAt = Date.now()
   setPosition(value)
 }
 

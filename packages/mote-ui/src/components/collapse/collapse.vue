@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { provide, reactive } from 'vue'
+import { provide, reactive, ref, watch } from 'vue'
 import type {
   MtCollapseContext,
   MtCollapseItemContext,
@@ -36,7 +36,19 @@ const unregister = (item: MtCollapseItemContext) => {
   }
 }
 
-const isExpanded = (name: MtCollapseValue) => props.modelValue.includes(name)
+// Internal state so the collapse works without v-model (uncontrolled),
+// while still syncing with the bound value when controlled.
+const internalExpanded = ref<MtCollapseValue[]>([])
+
+watch(
+  () => props.modelValue,
+  (value) => {
+    internalExpanded.value = value ?? []
+  },
+  { immediate: true },
+)
+
+const isExpanded = (name: MtCollapseValue) => internalExpanded.value.includes(name)
 
 function toggle(name: MtCollapseValue) {
   const expanded = isExpanded(name)
@@ -45,8 +57,9 @@ function toggle(name: MtCollapseValue) {
       ? []
       : [name]
     : expanded
-      ? props.modelValue.filter((value) => value !== name)
-      : [...props.modelValue, name]
+      ? internalExpanded.value.filter((value) => value !== name)
+      : [...internalExpanded.value, name]
+  internalExpanded.value = next
   emit('update:modelValue', next)
   emit('change', next)
 }

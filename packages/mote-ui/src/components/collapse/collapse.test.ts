@@ -31,6 +31,16 @@ describe('MtCollapse', () => {
     expect(items[0].find('.mt-collapse-item__body').text()).toBe('内容一')
   })
 
+  it('expands a panel when used without v-model (uncontrolled)', async () => {
+    const wrapper = mountCollapse()
+    await nextTick()
+    await wrapper.findAll('.mt-collapse-item__header')[0].trigger('click')
+    await nextTick()
+    const items = wrapper.findAll('.mt-collapse-item')
+    expect(items[0].classes()).toContain('mt-collapse-item--expanded')
+    expect(items[0].find('.mt-collapse-item__header').attributes('aria-expanded')).toBe('true')
+  })
+
   it('expands panels according to modelValue', async () => {
     const wrapper = mount({
       components: { Collapse, CollapseItem },
