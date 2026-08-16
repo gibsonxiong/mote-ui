@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
+import { nextTick } from 'vue'
 import MtPicker from './picker.vue'
 import { resolveColumns, normalizeOption } from './columns'
 import { settleIndex } from './momentum'
@@ -87,6 +88,24 @@ describe('MtPicker', () => {
     await wrapper.findAll('.mt-picker-column__option')[1].trigger('click')
     await wrapper.find('.mt-picker__confirm').trigger('click')
     expect(wrapper.emitted('confirm')?.[0]?.[0]).toBe('c')
+  })
+
+  it('drags the wheel to change the selected index', async () => {
+    const wrapper = mount(MtPicker, { props: { columns: flatColumns, modelValue: 'hz' } })
+    const column = wrapper.find('.mt-picker-column')
+    await column.trigger('pointerdown', { clientX: 0, clientY: 88 })
+    window.dispatchEvent(new MouseEvent('pointermove', { clientX: 0, clientY: 0 }))
+    window.dispatchEvent(new MouseEvent('pointerup'))
+    // An 88px upward drag from index 0 settles on the last option (index 2).
+    expect(wrapper.emitted('change')?.[0]).toEqual([0, 2])
+  })
+
+  it('sets touch-action to pan-x for vertical dragging', async () => {
+    const wrapper = mount(MtPicker, { props: { columns: flatColumns } })
+    await nextTick()
+    expect((wrapper.find('.mt-picker-column').element as HTMLElement).style.touchAction).toBe(
+      'pan-x',
+    )
   })
 })
 

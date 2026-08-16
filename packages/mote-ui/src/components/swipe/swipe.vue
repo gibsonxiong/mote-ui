@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, onUpdated, ref, watch } from 'vue'
+import { usePointerDrag } from '../../composables/use-pointer-drag'
 import type { MtSwipeProps } from './types'
 
 defineOptions({
@@ -46,9 +47,29 @@ function measure(): number {
   return props.vertical ? rootRef.value.offsetHeight : rootRef.value.offsetWidth
 }
 
-const dragging = ref(false)
 const delta = ref(0)
-const startPos = ref(0)
+
+const axisDelta = (info: { deltaX: number; deltaY: number }) =>
+  props.vertical ? info.deltaY : info.deltaX
+
+const { dragging } = usePointerDrag(rootRef, {
+  direction: () => (props.vertical ? 'vertical' : 'horizontal'),
+  onStart: () => {
+    delta.value = 0
+    stopAutoplay()
+  },
+  onMove: (info) => {
+    delta.value = axisDelta(info)
+  },
+  onEnd: (info) => {
+    // A quarter of the slide size is enough intent to switch
+    const threshold = measure() / 4
+    if (axisDelta(info) <= -threshold) moveBy(1)
+    else if (axisDelta(info) >= threshold) moveBy(-1)
+    delta.value = 0
+    startAutoplay()
+  },
+})
 
 const trackStyle = computed(() => ({
   transform: `${props.vertical ? 'translateY' : 'translateX'}(${
@@ -73,34 +94,6 @@ function moveBy(offset: number) {
     next = Math.min(Math.max(next, 0), slideCount.value - 1)
   }
   moveTo(next)
-}
-
-function positionOf(event: TouchEvent): number {
-  const touch = event.touches[0] ?? event.changedTouches[0]
-  return props.vertical ? touch.clientY : touch.clientX
-}
-
-function handleTouchStart(event: TouchEvent) {
-  dragging.value = true
-  delta.value = 0
-  startPos.value = positionOf(event)
-  stopAutoplay()
-}
-
-function handleTouchMove(event: TouchEvent) {
-  if (!dragging.value) return
-  delta.value = positionOf(event) - startPos.value
-}
-
-function handleTouchEnd() {
-  if (!dragging.value) return
-  dragging.value = false
-  // A quarter of the slide size is enough intent to switch
-  const threshold = measure() / 4
-  if (delta.value <= -threshold) moveBy(1)
-  else if (delta.value >= threshold) moveBy(-1)
-  delta.value = 0
-  startAutoplay()
 }
 
 let timer: ReturnType<typeof setInterval> | undefined
@@ -138,9 +131,6 @@ onBeforeUnmount(stopAutoplay)
     ref="rootRef"
     class="mt-swipe"
     :class="{ 'mt-swipe--vertical': vertical }"
-    @touchstart="handleTouchStart"
-    @touchmove="handleTouchMove"
-    @touchend="handleTouchEnd"
   >
     <div ref="trackRef" class="mt-swipe__track" :style="trackStyle">
       <slot />

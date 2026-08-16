@@ -22,9 +22,9 @@ function mockSize(wrapper: ReturnType<typeof mount>, width = 300, height = 200) 
 }
 
 async function swipe(wrapper: ReturnType<typeof mount>, from: number, to: number) {
-  await wrapper.find('.mt-swipe').trigger('touchstart', { touches: [{ clientX: from, clientY: 0 }] })
-  await wrapper.find('.mt-swipe').trigger('touchmove', { touches: [{ clientX: to, clientY: 0 }] })
-  await wrapper.find('.mt-swipe').trigger('touchend', { changedTouches: [{ clientX: to, clientY: 0 }] })
+  await wrapper.find('.mt-swipe').trigger('pointerdown', { clientX: from, clientY: 0 })
+  window.dispatchEvent(new MouseEvent('pointermove', { clientX: to, clientY: 0 }))
+  window.dispatchEvent(new MouseEvent('pointerup'))
 }
 
 describe('MtSwipe', () => {
@@ -99,11 +99,21 @@ describe('MtSwipe', () => {
   it('swipes vertically with clientY', async () => {
     const wrapper = mountSwipe({ vertical: true })
     mockSize(wrapper)
-    await wrapper.find('.mt-swipe').trigger('touchstart', { touches: [{ clientX: 0, clientY: 180 }] })
-    await wrapper.find('.mt-swipe').trigger('touchmove', { touches: [{ clientX: 0, clientY: 20 }] })
-    await wrapper
-      .find('.mt-swipe')
-      .trigger('touchend', { changedTouches: [{ clientX: 0, clientY: 20 }] })
+    await wrapper.find('.mt-swipe').trigger('pointerdown', { clientX: 0, clientY: 180 })
+    window.dispatchEvent(new MouseEvent('pointermove', { clientX: 0, clientY: 20 }))
+    window.dispatchEvent(new MouseEvent('pointerup'))
     expect(wrapper.emitted('update:modelValue')?.[0]).toEqual([1])
+  })
+
+  it('sets touch-action to pan-y for horizontal dragging', async () => {
+    const wrapper = mountSwipe()
+    await nextTick()
+    expect((wrapper.find('.mt-swipe').element as HTMLElement).style.touchAction).toBe('pan-y')
+  })
+
+  it('sets touch-action to pan-x when vertical', async () => {
+    const wrapper = mountSwipe({ vertical: true })
+    await nextTick()
+    expect((wrapper.find('.mt-swipe').element as HTMLElement).style.touchAction).toBe('pan-x')
   })
 })

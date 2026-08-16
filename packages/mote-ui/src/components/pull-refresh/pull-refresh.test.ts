@@ -11,9 +11,9 @@ function mountRefresh(props: Record<string, unknown> = {}) {
 }
 
 async function pull(wrapper: ReturnType<typeof mount>, from: number, to: number) {
-  await wrapper.find('.mt-pull-refresh').trigger('touchstart', { touches: [{ clientX: 0, clientY: from }] })
-  await wrapper.find('.mt-pull-refresh').trigger('touchmove', { touches: [{ clientX: 0, clientY: to }] })
-  await wrapper.find('.mt-pull-refresh').trigger('touchend')
+  await wrapper.find('.mt-pull-refresh').trigger('pointerdown', { clientX: 0, clientY: from })
+  window.dispatchEvent(new MouseEvent('pointermove', { clientX: 0, clientY: to }))
+  window.dispatchEvent(new MouseEvent('pointerup'))
 }
 
 function contentTransform(wrapper: ReturnType<typeof mount>): string {
@@ -43,11 +43,14 @@ describe('MtPullRefresh', () => {
   it('shows pulling and loosing hints while dragging', async () => {
     const wrapper = mountRefresh()
     const root = wrapper.find('.mt-pull-refresh')
-    await root.trigger('touchstart', { touches: [{ clientX: 0, clientY: 0 }] })
-    await root.trigger('touchmove', { touches: [{ clientX: 0, clientY: 30 }] })
+    await root.trigger('pointerdown', { clientX: 0, clientY: 0 })
+    window.dispatchEvent(new MouseEvent('pointermove', { clientX: 0, clientY: 30 }))
+    await nextTick()
     expect(wrapper.find('.mt-pull-refresh__head').text()).toBe('下拉即可刷新...')
-    await root.trigger('touchmove', { touches: [{ clientX: 0, clientY: 90 }] })
+    window.dispatchEvent(new MouseEvent('pointermove', { clientX: 0, clientY: 90 }))
+    await nextTick()
     expect(wrapper.find('.mt-pull-refresh__head').text()).toBe('释放即可刷新...')
+    window.dispatchEvent(new MouseEvent('pointerup'))
   })
 
   it('ignores gestures while loading', async () => {
@@ -86,5 +89,13 @@ describe('MtPullRefresh', () => {
     const wrapper = mountRefresh({ loading: true, successText: '已更新' })
     await wrapper.setProps({ loading: false })
     expect(wrapper.find('.mt-pull-refresh__head').text()).toBe('已更新')
+  })
+
+  it('sets touch-action to pan-x for vertical dragging', async () => {
+    const wrapper = mountRefresh()
+    await nextTick()
+    expect((wrapper.find('.mt-pull-refresh').element as HTMLElement).style.touchAction).toBe(
+      'pan-x',
+    )
   })
 })

@@ -23,9 +23,9 @@ function mockSideWidths(wrapper: ReturnType<typeof mount>, left = 60, right = 80
 }
 
 async function drag(wrapper: ReturnType<typeof mount>, from: number, to: number) {
-  await wrapper.find('.mt-swipe-cell').trigger('touchstart', { touches: [{ clientX: from, clientY: 0 }] })
-  await wrapper.find('.mt-swipe-cell').trigger('touchmove', { touches: [{ clientX: to, clientY: 0 }] })
-  await wrapper.find('.mt-swipe-cell').trigger('touchend')
+  await wrapper.find('.mt-swipe-cell').trigger('pointerdown', { clientX: from, clientY: 0 })
+  window.dispatchEvent(new MouseEvent('pointermove', { clientX: to, clientY: 0 }))
+  window.dispatchEvent(new MouseEvent('pointerup'))
 }
 
 const wrappers: ReturnType<typeof mount>[] = []
@@ -137,6 +137,15 @@ describe('MtSwipeCell', () => {
     await drag(wrapper, 100, 10)
     expect(wrapper.emitted('update:modelValue')).toBeUndefined()
     expect(wrapper.classes()).toContain('is-disabled')
+  })
+
+  it('sets touch-action to pan-y for horizontal dragging', async () => {
+    const wrapper = mountCell()
+    wrappers.push(wrapper)
+    await flushPromises()
+    expect((wrapper.find('.mt-swipe-cell').element as HTMLElement).style.touchAction).toBe(
+      'pan-y',
+    )
   })
 
   it('applies the offset when mounted already open', async () => {

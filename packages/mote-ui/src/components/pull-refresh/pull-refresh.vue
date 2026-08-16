@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
+import { usePointerDrag } from '../../composables/use-pointer-drag'
 import { useLocale } from '../../locale'
 import type { MtPullRefreshProps, MtPullRefreshStatus } from './types'
 
@@ -22,10 +23,9 @@ const emit = defineEmits<{
 
 const { t } = useLocale()
 
+const rootRef = ref<HTMLElement>()
 const status = ref<MtPullRefreshStatus>('idle')
 const distance = ref(0)
-const dragging = ref(false)
-const startY = ref(0)
 let successTimer: ReturnType<typeof setTimeout> | undefined
 
 // Rubber-band resistance once pulled past the trigger distance
@@ -34,39 +34,33 @@ function ease(value: number): number {
   return props.headHeight + (value - props.headHeight) / 2
 }
 
-function handleTouchStart(event: TouchEvent) {
-  if (props.disabled || props.loading) return
-  // Only start a pull when the container is scrolled to the top
-  if ((event.currentTarget as HTMLElement).scrollTop !== 0) return
-  dragging.value = true
-  startY.value = event.touches[0].clientY
-}
-
-function handleTouchMove(event: TouchEvent) {
-  if (!dragging.value) return
-  const delta = event.touches[0].clientY - startY.value
-  if (delta <= 0) {
-    distance.value = 0
-    status.value = 'idle'
-    return
-  }
-  distance.value = ease(delta)
-  status.value = distance.value >= props.headHeight ? 'loosing' : 'pulling'
-}
-
-function handleTouchEnd() {
-  if (!dragging.value) return
-  dragging.value = false
-  if (status.value === 'loosing') {
-    status.value = 'loading'
-    distance.value = props.headHeight
-    emit('update:loading', true)
-    emit('refresh')
-  } else {
-    status.value = 'idle'
-    distance.value = 0
-  }
-}
+const { dragging } = usePointerDrag(rootRef, {
+  direction: 'vertical',
+  // Only start a pull when the container is scrolled to the top and not
+  // currently loading.
+  disabled: () => props.disabled || props.loading || (rootRef.value?.scrollTop ?? 0) !== 0,
+  onMove: (info) => {
+    const delta = info.deltaY
+    if (delta <= 0) {
+      distance.value = 0
+      status.value = 'idle'
+      return
+    }
+    distance.value = ease(delta)
+    status.value = distance.value >= props.headHeight ? 'loosing' : 'pulling'
+  },
+  onEnd: () => {
+    if (status.value === 'loosing') {
+      status.value = 'loading'
+      distance.value = props.headHeight
+      emit('update:loading', true)
+      emit('refresh')
+    } else {
+      status.value = 'idle'
+      distance.value = 0
+    }
+  },
+})
 
 // A finished round briefly flashes the success hint before collapsing
 watch(
@@ -109,10 +103,8 @@ const headText = computed(() => {
 
 <template>
   <div
+    ref="rootRef"
     class="mt-pull-refresh"
-    @touchstart="handleTouchStart"
-    @touchmove="handleTouchMove"
-    @touchend="handleTouchEnd"
   >
     <div
       class="mt-pull-refresh__head"

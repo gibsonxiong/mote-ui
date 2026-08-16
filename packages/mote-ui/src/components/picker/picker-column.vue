@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
+import { usePointerDrag } from '../../composables/use-pointer-drag'
 import { settleIndex } from './momentum'
 import type { MtPickerOption } from './types'
 
@@ -27,16 +28,10 @@ const emit = defineEmits<{
 
 const wrapperRef = ref<HTMLElement | null>(null)
 const dragOffset = ref(0)
-const dragging = ref(false)
 const animated = ref(true)
 
-let startY = 0
 let startOffset = 0
-let lastY = 0
-let lastTime = 0
-let velocity = 0
 let moved = false
-let lastEvent: TouchEvent | MouseEvent | null = null
 
 const translateY = computed(() => {
   const extra = dragging.value ? dragOffset.value : 0
@@ -80,73 +75,40 @@ function commitIndex(next: number) {
   }
 }
 
-function getIndexFromEvent(event: TouchEvent | MouseEvent) {
+function getIndexFromClientY(clientY: number) {
   const wrapper = wrapperRef.value
   if (!wrapper) return props.index
   const rect = wrapper.getBoundingClientRect()
-  const clientY = event instanceof MouseEvent ? event.clientY : event.changedTouches[0]?.clientY ?? 0
   const relative = clientY - rect.top - rect.height / 2
   return props.index + Math.round(relative / props.optionHeight)
 }
 
-function handleDragStart(event: TouchEvent | MouseEvent) {
-  dragging.value = true
-  animated.value = false
-  moved = false
-  dragOffset.value = 0
-  lastEvent = event
-  startY = event instanceof MouseEvent ? event.clientY : event.touches[0].clientY
-  lastY = startY
-  startOffset = 0
-  lastTime = Date.now()
-  velocity = 0
+const { dragging } = usePointerDrag(wrapperRef, {
+  direction: 'vertical',
+  onStart: () => {
+    animated.value = false
+    moved = false
+    dragOffset.value = 0
+    startOffset = 0
+  },
+  onMove: (info) => {
+    startOffset = info.deltaY
+    if (Math.abs(startOffset) > 4) moved = true
+    dragOffset.value = startOffset
+  },
+  onEnd: (info) => {
+    animated.value = true
 
-  if (event instanceof MouseEvent) {
-    window.addEventListener('mousemove', handleDragMove)
-    window.addEventListener('mouseup', handleDragEnd)
-  } else {
-    window.addEventListener('touchmove', handleDragMove, { passive: false })
-    window.addEventListener('touchend', handleDragEnd)
-    window.addEventListener('touchcancel', handleDragEnd)
-  }
-}
+    if (!moved) {
+      // Treat as a tap: select the option under the pointer position
+      commitIndex(getIndexFromClientY(info.clientY))
+      return
+    }
 
-function handleDragMove(event: TouchEvent | MouseEvent) {
-  if (!dragging.value) return
-  if (event instanceof TouchEvent && event.cancelable) event.preventDefault()
-  lastEvent = event
-  const currentY = event instanceof MouseEvent ? event.clientY : event.touches[0].clientY
-  const now = Date.now()
-  const delta = now - lastTime
-  if (delta > 0) {
-    velocity = (currentY - lastY) / delta
-  }
-  lastY = currentY
-  lastTime = now
-  startOffset = currentY - startY
-  if (Math.abs(startOffset) > 4) moved = true
-  dragOffset.value = startOffset
-}
-
-function handleDragEnd() {
-  window.removeEventListener('mousemove', handleDragMove)
-  window.removeEventListener('mouseup', handleDragEnd)
-  window.removeEventListener('touchmove', handleDragMove)
-  window.removeEventListener('touchend', handleDragEnd)
-  window.removeEventListener('touchcancel', handleDragEnd)
-  if (!dragging.value) return
-  dragging.value = false
-  animated.value = true
-
-  if (!moved) {
-    // Treat as a tap: select the option under the pointer position
-    if (lastEvent) commitIndex(getIndexFromEvent(lastEvent))
-    return
-  }
-
-  const nextIndex = settleIndex(props.index, startOffset, velocity, props.optionHeight)
-  commitIndex(nextIndex)
-}
+    const nextIndex = settleIndex(props.index, startOffset, info.velocity, props.optionHeight)
+    commitIndex(nextIndex)
+  },
+})
 
 function handleOptionClick(optionIndex: number) {
   if (moved) return
@@ -161,14 +123,6 @@ watch(
     }
   },
 )
-
-onBeforeUnmount(() => {
-  window.removeEventListener('mousemove', handleDragMove)
-  window.removeEventListener('mouseup', handleDragEnd)
-  window.removeEventListener('touchmove', handleDragMove)
-  window.removeEventListener('touchend', handleDragEnd)
-  window.removeEventListener('touchcancel', handleDragEnd)
-})
 </script>
 
 <template>
@@ -176,8 +130,6 @@ onBeforeUnmount(() => {
     ref="wrapperRef"
     class="mt-picker-column"
     :style="wrapperStyle"
-    @touchstart="handleDragStart"
-    @mousedown.prevent="handleDragStart"
   >
     <div class="mt-picker-column__wheel" :style="wheelStyle">
       <div

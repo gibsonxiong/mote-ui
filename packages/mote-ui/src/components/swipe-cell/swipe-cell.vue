@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { usePointerDrag } from '../../composables/use-pointer-drag'
 import type { MtSwipeCellPosition, MtSwipeCellProps } from './types'
 
 defineOptions({
@@ -72,7 +73,7 @@ function open(value: 'left' | 'right') {
   // Mark the interaction so the same click/tap that opened the cell (e.g. a
   // button) is ignored by the document click handler, which would otherwise
   // immediately close the cell it just opened.
-  lastTouchAt = Date.now()
+  lastPointerAt = Date.now()
   setPosition(value)
 }
 
@@ -80,43 +81,36 @@ function close() {
   setPosition('none')
 }
 
-const dragging = ref(false)
-const startX = ref(0)
-const startOffset = ref(0)
-// Guards against the synthetic click fired right after a touch gesture
+let startOffset = 0
+// Guards against the synthetic click fired right after a pointer gesture
 // instantly closing a freshly opened cell.
-let lastTouchAt = 0
+let lastPointerAt = 0
 
-function handleTouchStart(event: TouchEvent) {
-  if (props.disabled) return
-  dragging.value = true
-  startX.value = event.touches[0].clientX
-  startOffset.value = offset.value
-}
-
-function handleTouchMove(event: TouchEvent) {
-  if (!dragging.value || props.disabled) return
-  const deltaX = event.touches[0].clientX - startX.value
-  const leftWidth = sideWidth('left')
-  const rightWidth = sideWidth('right')
-  offset.value = Math.min(Math.max(startOffset.value + deltaX, -rightWidth), leftWidth)
-}
-
-function handleTouchEnd() {
-  if (!dragging.value) return
-  dragging.value = false
-  lastTouchAt = Date.now()
-  // Crossing half of a side's width commits to opening it
-  if (offset.value > sideWidth('left') / 2) setPosition('left')
-  else if (offset.value < -sideWidth('right') / 2) setPosition('right')
-  // Otherwise snap back to the current position's offset (0 when closed, the
-  // open width when already open) instead of hardcoding 0 — which left an
-  // open cell visually closed while `position` stayed open.
-  else offset.value = offsetFor(position.value)
-}
+usePointerDrag(rootRef, {
+  direction: 'horizontal',
+  disabled: () => props.disabled,
+  onStart: () => {
+    startOffset = offset.value
+  },
+  onMove: (info) => {
+    const leftWidth = sideWidth('left')
+    const rightWidth = sideWidth('right')
+    offset.value = Math.min(Math.max(startOffset + info.deltaX, -rightWidth), leftWidth)
+  },
+  onEnd: () => {
+    lastPointerAt = Date.now()
+    // Crossing half of a side's width commits to opening it
+    if (offset.value > sideWidth('left') / 2) setPosition('left')
+    else if (offset.value < -sideWidth('right') / 2) setPosition('right')
+    // Otherwise snap back to the current position's offset (0 when closed, the
+    // open width when already open) instead of hardcoding 0 — which left an
+    // open cell visually closed while `position` stayed open.
+    else offset.value = offsetFor(position.value)
+  },
+})
 
 function handleDocumentClick(event: MouseEvent) {
-  if (Date.now() - lastTouchAt < 300) return
+  if (Date.now() - lastPointerAt < 300) return
   if (position.value !== 'none' && !rootRef.value?.contains(event.target as Node)) {
     close()
   }
@@ -143,9 +137,6 @@ defineExpose({ open, close })
     ref="rootRef"
     class="mt-swipe-cell"
     :class="{ 'is-disabled': disabled }"
-    @touchstart="handleTouchStart"
-    @touchmove="handleTouchMove"
-    @touchend="handleTouchEnd"
   >
     <div class="mt-swipe-cell__wrapper" :style="wrapperStyle">
       <div v-if="$slots.left" ref="leftRef" class="mt-swipe-cell__left">
