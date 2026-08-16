@@ -5,6 +5,7 @@ node_modules/
 dist/
 *.tsbuildinfo
 docs/.vitepress/dist/
+docs/.vitepress/dist-verify/
 docs/.vitepress/cache/
 docs/.vitepress/.temp/
 docs/.vitepress/*.timestamp-*.mjs
