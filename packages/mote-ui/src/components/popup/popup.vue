@@ -2,6 +2,7 @@
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { lockScroll, unlockScroll } from '../../utils/lock-scroll'
 import { nextZIndex } from '../../utils/z-index'
+import Overlay from '../overlay/overlay.vue'
 import type { MtPopupProps } from './types'
 
 defineOptions({
@@ -70,9 +71,7 @@ function handleOverlayClick(event: MouseEvent) {
 
 <template>
   <Teleport :to="teleport">
-    <Transition name="mt-overlay-fade" :duration="300">
-      <div v-if="modelValue && overlay" class="mt-overlay" :style="{ zIndex: baseZIndex }" @click="handleOverlayClick" />
-    </Transition>
+    <Overlay :model-value="modelValue && overlay" :z-index="baseZIndex" @click="handleOverlayClick" />
     <Transition
       :name="transitionName"
       :duration="300"
@@ -89,22 +88,6 @@ function handleOverlayClick(event: MouseEvent) {
 </template>
 
 <style lang="scss">
-.mt-overlay {
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.mt-overlay-fade-enter-active,
-.mt-overlay-fade-leave-active {
-  transition: opacity var(--mt-duration-normal) var(--mt-easing-standard);
-}
-
-.mt-overlay-fade-enter-from,
-.mt-overlay-fade-leave-to {
-  opacity: 0;
-}
-
 .mt-popup {
   position: fixed;
   max-width: 100vw;

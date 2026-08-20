@@ -54,6 +54,9 @@ const enUS: MtLocaleMessages = {
     loading: 'Loading...',
     success: 'Refreshed successfully',
   },
+  signature: {
+    clear: 'Clear',
+  },
 }
 
 export default enUS

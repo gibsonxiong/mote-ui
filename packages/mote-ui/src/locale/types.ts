@@ -59,4 +59,7 @@ export interface MtLocaleMessages {
     loading: string
     success: string
   }
+  signature: {
+    clear: string
+  }
 }

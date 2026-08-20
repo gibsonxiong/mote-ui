@@ -54,6 +54,9 @@ const zhCN: MtLocaleMessages = {
     loading: '正在加载...',
     success: '刷新成功',
   },
+  signature: {
+    clear: '清除',
+  },
 }
 
 export default zhCN

@@ -14,6 +14,7 @@ import { MtField } from './components/field'
 import { MtForm, MtFormItem } from './components/form'
 import { MtPicker } from './components/picker'
 import { MtPopup } from './components/popup'
+import { MtOverlay } from './components/overlay'
 import { MtDialog, confirmDialog, alertDialog } from './components/dialog'
 import { MtActionSheet } from './components/action-sheet'
 import { MtToast, showToast, clearToast } from './components/toast'
@@ -48,6 +49,10 @@ import { MtCollapse, MtCollapseItem } from './components/collapse'
 import { MtSteps, MtStep } from './components/steps'
 import { MtPopover } from './components/popover'
 import { MtImagePreview } from './components/image-preview'
+import { MtNumberKeyboard } from './components/number-keyboard'
+import { MtPasswordInput } from './components/password-input'
+import { MtSignature } from './components/signature'
+import { MtSticky } from './components/sticky'
 
 const components: Plugin[] = [
   MtButton,
@@ -67,6 +72,7 @@ const components: Plugin[] = [
   MtFormItem,
   MtPicker,
   MtPopup,
+  MtOverlay,
   MtDialog,
   MtActionSheet,
   MtNavBar,
@@ -103,6 +109,10 @@ const components: Plugin[] = [
   MtStep,
   MtPopover,
   MtImagePreview,
+  MtNumberKeyboard,
+  MtPasswordInput,
+  MtSignature,
+  MtSticky,
   MtNotifyComponent,
 ]
 
@@ -132,6 +142,7 @@ export {
   MtFormItem,
   MtPicker,
   MtPopup,
+  MtOverlay,
   MtDialog,
   MtActionSheet,
   MtToast,
@@ -177,6 +188,10 @@ export {
   MtStep,
   MtPopover,
   MtImagePreview,
+  MtNumberKeyboard,
+  MtPasswordInput,
+  MtSignature,
+  MtSticky,
 }
 export type { MtButtonProps } from './components/button'
 export type { MtIconProps, MtIconName } from './components/icon'
@@ -206,6 +221,7 @@ export type {
   MtPickerValue,
 } from './components/picker'
 export type { MtPopupProps } from './components/popup'
+export type { MtOverlayProps } from './components/overlay'
 export type { MtDialogProps, MtDialogOptions } from './components/dialog'
 export type { MtActionSheetProps, MtActionSheetAction } from './components/action-sheet'
 export type { MtToastOptions, MtToastApi, MtToastType, MtToastPosition } from './components/toast'
@@ -265,6 +281,14 @@ export type {
   MtPopoverPlacement,
 } from './components/popover'
 export type { MtImagePreviewProps } from './components/image-preview'
+export type { MtNumberKeyboardProps } from './components/number-keyboard'
+export type { MtPasswordInputProps } from './components/password-input'
+export type {
+  MtSignatureProps,
+  MtSignatureSubmitContent,
+  MtSignatureInstance,
+} from './components/signature'
+export type { MtStickyProps } from './components/sticky'
 export type { MtLocaleMessages } from './locale'
 
 export default { install }
