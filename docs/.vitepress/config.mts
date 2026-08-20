@@ -43,6 +43,8 @@ const zhSidebar = [
       { text: 'NumberKeyboard 数字键盘', link: '/components/number-keyboard' },
       { text: 'PasswordInput 密码输入框', link: '/components/password-input' },
       { text: 'Signature 签名', link: '/components/signature' },
+      { text: 'TreeSelect 分类选择', link: '/components/tree-select' },
+      { text: 'Area 省市区选择', link: '/components/area' },
     ],
   },
   {
@@ -55,6 +57,7 @@ const zhSidebar = [
       { text: 'Notify 消息通知', link: '/components/notify' },
       { text: 'Popover 气泡弹出菜单', link: '/components/popover' },
       { text: 'Overlay 遮罩层', link: '/components/overlay' },
+      { text: 'ShareSheet 分享面板', link: '/components/share-sheet' },
     ],
   },
   {
@@ -63,6 +66,8 @@ const zhSidebar = [
       { text: 'NavBar 导航栏', link: '/components/nav-bar' },
       { text: 'TabBar 标签栏', link: '/components/tab-bar' },
       { text: 'Tabs 选项卡', link: '/components/tabs' },
+      { text: 'DropdownMenu 下拉菜单', link: '/components/dropdown-menu' },
+      { text: 'Sidebar 侧边导航', link: '/components/sidebar' },
     ],
   },
   {
@@ -129,6 +134,8 @@ const enSidebar = [
       { text: 'NumberKeyboard', link: '/en/components/number-keyboard' },
       { text: 'PasswordInput', link: '/en/components/password-input' },
       { text: 'Signature', link: '/en/components/signature' },
+      { text: 'TreeSelect', link: '/en/components/tree-select' },
+      { text: 'Area', link: '/en/components/area' },
     ],
   },
   {
@@ -141,6 +148,7 @@ const enSidebar = [
       { text: 'Notify', link: '/en/components/notify' },
       { text: 'Popover', link: '/en/components/popover' },
       { text: 'Overlay', link: '/en/components/overlay' },
+      { text: 'ShareSheet', link: '/en/components/share-sheet' },
     ],
   },
   {
@@ -149,6 +157,8 @@ const enSidebar = [
       { text: 'NavBar', link: '/en/components/nav-bar' },
       { text: 'TabBar', link: '/en/components/tab-bar' },
       { text: 'Tabs', link: '/en/components/tabs' },
+      { text: 'DropdownMenu', link: '/en/components/dropdown-menu' },
+      { text: 'Sidebar', link: '/en/components/sidebar' },
     ],
   },
   {
