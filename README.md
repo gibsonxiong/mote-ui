@@ -68,7 +68,7 @@ pnpm lint         # ESLint 检查
 - 阶段 10 · 滚动场景：List、PullRefresh、BackTop、Swipe、SwipeCell，Popup z-index 自动层级 ✅ → v0.4
 - 阶段 11 · 展示补充：Loading、Progress、NoticeBar、Popover、Collapse、Steps、ImagePreview、CountDown ✅ → v0.5
 - v1.0：全量 API 审计 + Notify 破坏性变更统一 ✅ → 发布正式版
-- 阶段 12 · 基建 + 高频录入：Overlay、Sticky、NumberKeyboard、PasswordInput、Signature → v1.1
+- 阶段 12 · 基建 + 高频录入：Overlay、Sticky、NumberKeyboard、PasswordInput、Signature ✅ → v1.1
 - 阶段 13 · 弹层与导航：ShareSheet、DropdownMenu、TreeSelect、Area、Sidebar ✅ → v1.2
 - 阶段 14 · 索引与杂项：IndexBar、Pagination、Circle、LazyLoad、Highlight、FloatingBubble → v1.3
 
