@@ -40,6 +40,9 @@ const zhSidebar = [
       { text: 'DatetimePicker 时间选择', link: '/components/datetime-picker' },
       { text: 'Cascader 级联选择', link: '/components/cascader' },
       { text: 'Calendar 日历', link: '/components/calendar' },
+      { text: 'NumberKeyboard 数字键盘', link: '/components/number-keyboard' },
+      { text: 'PasswordInput 密码输入框', link: '/components/password-input' },
+      { text: 'Signature 签名', link: '/components/signature' },
     ],
   },
   {
@@ -51,6 +54,7 @@ const zhSidebar = [
       { text: 'ActionSheet 动作面板', link: '/components/action-sheet' },
       { text: 'Notify 消息通知', link: '/components/notify' },
       { text: 'Popover 气泡弹出菜单', link: '/components/popover' },
+      { text: 'Overlay 遮罩层', link: '/components/overlay' },
     ],
   },
   {
@@ -81,6 +85,7 @@ const zhSidebar = [
       { text: 'Collapse 折叠面板', link: '/components/collapse' },
       { text: 'Steps 步骤条', link: '/components/steps' },
       { text: 'ImagePreview 图片预览', link: '/components/image-preview' },
+      { text: 'Sticky 粘性布局', link: '/components/sticky' },
     ],
   },
 ]
@@ -121,6 +126,9 @@ const enSidebar = [
       { text: 'DatetimePicker', link: '/en/components/datetime-picker' },
       { text: 'Cascader', link: '/en/components/cascader' },
       { text: 'Calendar', link: '/en/components/calendar' },
+      { text: 'NumberKeyboard', link: '/en/components/number-keyboard' },
+      { text: 'PasswordInput', link: '/en/components/password-input' },
+      { text: 'Signature', link: '/en/components/signature' },
     ],
   },
   {
@@ -132,6 +140,7 @@ const enSidebar = [
       { text: 'ActionSheet', link: '/en/components/action-sheet' },
       { text: 'Notify', link: '/en/components/notify' },
       { text: 'Popover', link: '/en/components/popover' },
+      { text: 'Overlay', link: '/en/components/overlay' },
     ],
   },
   {
@@ -162,6 +171,7 @@ const enSidebar = [
       { text: 'Collapse', link: '/en/components/collapse' },
       { text: 'Steps', link: '/en/components/steps' },
       { text: 'ImagePreview', link: '/en/components/image-preview' },
+      { text: 'Sticky', link: '/en/components/sticky' },
     ],
   },
 ]
