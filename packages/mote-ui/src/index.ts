@@ -53,6 +53,11 @@ import { MtNumberKeyboard } from './components/number-keyboard'
 import { MtPasswordInput } from './components/password-input'
 import { MtSignature } from './components/signature'
 import { MtSticky } from './components/sticky'
+import { MtShareSheet } from './components/share-sheet'
+import { MtDropdownMenu, MtDropdownItem } from './components/dropdown-menu'
+import { MtTreeSelect } from './components/tree-select'
+import { MtArea } from './components/area'
+import { MtSidebar, MtSidebarItem } from './components/sidebar'
 
 const components: Plugin[] = [
   MtButton,
@@ -114,6 +119,13 @@ const components: Plugin[] = [
   MtSignature,
   MtSticky,
   MtNotifyComponent,
+  MtShareSheet,
+  MtDropdownMenu,
+  MtDropdownItem,
+  MtTreeSelect,
+  MtArea,
+  MtSidebar,
+  MtSidebarItem,
 ]
 
 export { setLocale, useLocale, zhCN, enUS } from './locale'
@@ -192,6 +204,13 @@ export {
   MtPasswordInput,
   MtSignature,
   MtSticky,
+  MtShareSheet,
+  MtDropdownMenu,
+  MtDropdownItem,
+  MtTreeSelect,
+  MtArea,
+  MtSidebar,
+  MtSidebarItem,
 }
 export type { MtButtonProps } from './components/button'
 export type { MtIconProps, MtIconName } from './components/icon'
@@ -289,6 +308,25 @@ export type {
   MtSignatureInstance,
 } from './components/signature'
 export type { MtStickyProps } from './components/sticky'
+export type { MtShareSheetProps, MtShareSheetOption } from './components/share-sheet'
+export type {
+  MtDropdownMenuProps,
+  MtDropdownItemProps,
+  MtDropdownOption,
+  MtDropdownValue,
+} from './components/dropdown-menu'
+export type {
+  MtTreeSelectProps,
+  MtTreeSelectItem,
+  MtTreeSelectChild,
+  MtTreeSelectId,
+} from './components/tree-select'
+export type { MtAreaProps, MtAreaList, MtAreaEvent } from './components/area'
+export type {
+  MtSidebarProps,
+  MtSidebarItemProps,
+  MtSidebarValue,
+} from './components/sidebar'
 export type { MtLocaleMessages } from './locale'
 
 export default { install }

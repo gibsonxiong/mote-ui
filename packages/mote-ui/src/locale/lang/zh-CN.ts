@@ -57,6 +57,9 @@ const zhCN: MtLocaleMessages = {
   signature: {
     clear: '清除',
   },
+  area: {
+    title: '选择省市区',
+  },
 }
 
 export default zhCN

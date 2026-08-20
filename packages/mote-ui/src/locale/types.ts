@@ -62,4 +62,7 @@ export interface MtLocaleMessages {
   signature: {
     clear: string
   }
+  area: {
+    title: string
+  }
 }

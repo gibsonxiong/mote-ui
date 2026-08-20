@@ -57,6 +57,9 @@ const enUS: MtLocaleMessages = {
   signature: {
     clear: 'Clear',
   },
+  area: {
+    title: 'Select region',
+  },
 }
 
 export default enUS
