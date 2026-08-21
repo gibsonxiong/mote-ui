@@ -11,7 +11,7 @@ const props = withDefaults(defineProps<MtCircleProps>(), {
   rate: 100,
   speed: 0,
   size: 100,
-  strokeWidth: 40,
+  strokeWidth: 6,
   color: undefined,
   layerColor: undefined,
   fill: undefined,
@@ -37,8 +37,11 @@ const circumference = computed(() => 2 * Math.PI * radius.value)
 const dashOffset = computed(() => circumference.value * (1 - clampedRate.value / 100))
 
 const transform = computed(() => {
+  // SVG <circle> strokes start at 3 o'clock and run clockwise, so rotate
+  // the start point to 12 o'clock. For counter-clockwise, mirror vertically
+  // (scaleY) to flip the direction while keeping the start at 12 o'clock.
   const rotate = 'rotate(-90deg)'
-  return props.clockwise ? rotate : `${rotate} scaleX(-1)`
+  return props.clockwise ? rotate : `${rotate} scaleY(-1)`
 })
 
 const displayText = computed(() => props.text || `${Math.floor(clampedRate.value)}%`)

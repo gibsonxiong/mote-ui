@@ -45,4 +45,16 @@ describe('MtCircle', () => {
     const wrapper = mount(Circle, { props: { rate: 42 }, slots: { default: '42/100' } })
     expect(wrapper.find('.mt-circle__text').text()).toBe('42/100')
   })
+
+  it('rotates clockwise progress to start at 12 o\'clock', () => {
+    const wrapper = mount(Circle)
+    const progress = wrapper.find('.mt-circle__progress').element as SVGElement
+    expect(progress.style.transform).toBe('rotate(-90deg)')
+  })
+
+  it('mirrors counter-clockwise progress along the vertical axis', () => {
+    const wrapper = mount(Circle, { props: { clockwise: false } })
+    const progress = wrapper.find('.mt-circle__progress').element as SVGElement
+    expect(progress.style.transform).toBe('rotate(-90deg) scaleY(-1)')
+  })
 })

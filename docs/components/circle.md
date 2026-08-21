@@ -78,7 +78,7 @@ const rate = ref(70)
 | rate | 目标进度（0-100），环形动画的目标值 | `number` | `100` |
 | speed | 动画速度（每秒百分比），0 表示无动画 | `number` | `0` |
 | size | 直径（px） | `number` | `100` |
-| stroke-width | 线条宽度 | `number` | `40` |
+| stroke-width | 线条宽度 | `number` | `6` |
 | color | 进度条颜色 | `string` | 主题色 |
 | layer-color | 轨道背景色 | `string` | 页面背景色 |
 | fill | 圆形填充色 | `string` | - |

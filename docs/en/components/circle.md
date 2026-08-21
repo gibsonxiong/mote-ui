@@ -78,7 +78,7 @@ Set `clockwise` to `false` to grow the progress counter-clockwise:
 | rate | Target progress (0-100) the ring animates toward | `number` | `100` |
 | speed | Animation speed in percentage points per second; 0 disables animation | `number` | `0` |
 | size | Diameter (px) | `number` | `100` |
-| stroke-width | Stroke width of the ring | `number` | `40` |
+| stroke-width | Stroke width of the ring | `number` | `6` |
 | color | Progress stroke color | `string` | Theme color |
 | layer-color | Track (background) stroke color | `string` | Page background |
 | fill | Fill color of the circle | `string` | - |

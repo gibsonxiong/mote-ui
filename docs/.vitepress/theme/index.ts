@@ -5,6 +5,7 @@ import MoteUI from 'mote-ui'
 import 'mote-ui/styles/index.scss'
 import PhonePreview from './components/PhonePreview.vue'
 import ThemeSync from './components/ThemeSync.vue'
+import LocaleSync from './components/LocaleSync.vue'
 import './custom.css'
 
 export default {
@@ -12,6 +13,7 @@ export default {
   Layout: () =>
     h(DefaultTheme.Layout, null, {
       'layout-bottom': () => h(ThemeSync),
+      'layout-top': () => h(LocaleSync),
     }),
   enhanceApp({ app }) {
     app.use(MoteUI)
