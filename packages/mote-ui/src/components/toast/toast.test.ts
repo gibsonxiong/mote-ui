@@ -48,4 +48,10 @@ describe('MtToast', () => {
     showToast({ message: 'top', position: 'top' })
     expect(document.body.querySelector('.mt-toast--top')).toBeTruthy()
   })
+
+  it('applies a custom z-index', () => {
+    showToast({ message: '自定义层级', zIndex: 9999 })
+    const el = document.body.querySelector('.mt-toast-wrap') as HTMLElement
+    expect(el.getAttribute('style')).toContain('z-index: 9999')
+  })
 })

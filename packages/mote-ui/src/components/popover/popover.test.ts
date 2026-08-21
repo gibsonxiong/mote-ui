@@ -84,4 +84,15 @@ describe('MtPopover', () => {
     expect(wrapper.find('.mt-popover__panel .custom').text()).toBe('自定义内容')
     expect(wrapper.find('.mt-popover__action').exists()).toBe(false)
   })
+
+  it('auto-allocates a z-index when shown', () => {
+    const wrapper = mount(MtPopover, { props: { modelValue: true, actions } })
+    const style = wrapper.find('.mt-popover__panel').attributes('style') ?? ''
+    expect(Number(style.match(/z-index:\s*(\d+)/)?.[1])).toBeGreaterThan(2000)
+  })
+
+  it('respects an explicit z-index', () => {
+    const wrapper = mount(MtPopover, { props: { modelValue: true, actions, zIndex: 2000 } })
+    expect(wrapper.find('.mt-popover__panel').attributes('style') ?? '').toContain('z-index: 2000')
+  })
 })

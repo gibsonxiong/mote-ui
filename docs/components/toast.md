@@ -106,3 +106,4 @@ showToast({ message: '阻断交互中', overlay: true, duration: 1500 })
 | duration | 自动关闭延时（ms），`0` 为不关闭 | `number` | `2000`（loading 为 `0`） |
 | position | 显示位置 | `'top' \| 'middle' \| 'bottom'` | `'middle'` |
 | overlay | 显示透明遮罩阻断页面交互 | `boolean` | `false` |
+| z-index | 层级 | `number` | `3000` |

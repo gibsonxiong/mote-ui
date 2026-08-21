@@ -51,4 +51,16 @@ describe('MtNotify', () => {
     await wait(400)
     expect(wrapper.find('.mt-notify').exists()).toBe(false)
   })
+
+  it('defaults to z-index 3000', () => {
+    showNotify('默认层级')
+    const el = document.body.querySelector('.mt-notify') as HTMLElement
+    expect(el.getAttribute('style')).toContain('z-index: 3000')
+  })
+
+  it('applies a custom z-index', () => {
+    showNotify({ message: '自定义层级', zIndex: 9999 })
+    const el = document.body.querySelector('.mt-notify') as HTMLElement
+    expect(el.getAttribute('style')).toContain('z-index: 9999')
+  })
 })

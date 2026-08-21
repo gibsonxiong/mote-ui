@@ -8,6 +8,7 @@ interface ToastState {
   type: MtToastType
   position: MtToastPosition
   overlay: boolean
+  zIndex: number
 }
 
 const state: ToastState = {
@@ -16,6 +17,7 @@ const state: ToastState = {
   type: 'text',
   position: 'middle',
   overlay: false,
+  zIndex: 3000,
 }
 
 let container: HTMLElement | null = null
@@ -36,6 +38,7 @@ export function showToast(options: MtToastOptions | string = {}): void {
   state.type = opts.type ?? 'text'
   state.position = opts.position ?? 'middle'
   state.overlay = opts.overlay ?? false
+  state.zIndex = opts.zIndex ?? 3000
   renderToast()
 
   if (timer) clearTimeout(timer)

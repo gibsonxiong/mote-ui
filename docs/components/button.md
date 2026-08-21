@@ -238,6 +238,8 @@ function onSubmit() {
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | type | 按钮类型 | `'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'default'` | `'default'` |
+| native-type | 原生 button 类型 | `'button' \| 'submit' \| 'reset'` | `'button'` |
+| icon | 内容前的内置图标 | `MtIconName` | - |
 | size | 按钮尺寸 | `'small' \| 'normal' \| 'large'` | `'normal'` |
 | plain | 是否为朴素按钮 | `boolean` | `false` |
 | round | 是否为圆角按钮 | `boolean` | `false` |

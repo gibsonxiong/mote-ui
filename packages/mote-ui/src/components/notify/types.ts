@@ -6,6 +6,8 @@ export interface MtNotifyProps {
   /** Notify content */
   message?: string
   type?: MtNotifyType
+  /** Stacking order; defaults to 3000 to stay above modal layers */
+  zIndex?: number
 }
 
 export interface MtNotifyOptions {
@@ -14,6 +16,8 @@ export interface MtNotifyOptions {
   type?: MtNotifyType
   /** Auto-close delay in ms; 0 keeps the notify until closed */
   duration?: number
+  /** Stacking order; defaults to 3000 to stay above modal layers */
+  zIndex?: number
 }
 
 export interface MtNotifyApi {

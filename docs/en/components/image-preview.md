@@ -81,6 +81,7 @@ const images = ['https://example.com/a.jpg', 'https://example.com/b.jpg']
 | show-index | Show the `1 / n` index indicator | `boolean` | `true` |
 | closeable | Show a close button | `boolean` | `false` |
 | close-on-overlay | Close when tapping the overlay | `boolean` | `true` |
+| z-index | Custom z-index; auto-allocated when omitted | `number` | - |
 
 ### Events
 

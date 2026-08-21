@@ -17,4 +17,6 @@ export interface MtPopoverProps {
   placement?: MtPopoverPlacement
   /** Menu actions; can be replaced by the default slot */
   actions?: MtPopoverAction[]
+  /** Custom z-index; auto-allocated when omitted */
+  zIndex?: number
 }

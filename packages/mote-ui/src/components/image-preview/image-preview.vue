@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import MtSwipe from '../swipe/swipe.vue'
 import MtIcon from '../icon/icon.vue'
+import { nextZIndex } from '../../utils/z-index'
 import type { MtImagePreviewProps } from './types'
 
 defineOptions({
@@ -15,6 +16,7 @@ const props = withDefaults(defineProps<MtImagePreviewProps>(), {
   showIndex: true,
   closeable: false,
   closeOnOverlay: true,
+  zIndex: undefined,
 })
 
 const emit = defineEmits<{
@@ -24,6 +26,20 @@ const emit = defineEmits<{
 }>()
 
 const current = ref(props.startPosition)
+
+// Auto-allocate a z-index when omitted, so previews stack in opening order.
+// An explicit zIndex passes straight through untouched.
+const allocatedZIndex = ref(0)
+
+watch(
+  () => props.modelValue,
+  (visible) => {
+    if (visible && props.zIndex === undefined) allocatedZIndex.value = nextZIndex()
+  },
+  { immediate: true },
+)
+
+const zIndex = computed(() => props.zIndex ?? allocatedZIndex.value)
 
 // Reset to the start position every time the preview opens
 watch(
@@ -53,7 +69,7 @@ function handleOverlayClick() {
 </script>
 
 <template>
-  <div v-if="modelValue" class="mt-image-preview" @click="handleOverlayClick">
+  <div v-if="modelValue" class="mt-image-preview" :style="{ zIndex }" @click="handleOverlayClick">
     <MtSwipe
       class="mt-image-preview__swipe"
       :model-value="current"
@@ -78,7 +94,6 @@ function handleOverlayClick() {
 .mt-image-preview {
   position: fixed;
   inset: 0;
-  z-index: 2000;
   display: flex;
   align-items: center;
   background: rgba(0, 0, 0, 0.9);

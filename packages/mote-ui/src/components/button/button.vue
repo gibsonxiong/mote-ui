@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { MtIconLoading } from '@mote-ui/icons'
+import MtIcon from '../icon/icon.vue'
 import type { MtButtonProps } from './types'
 
 defineOptions({
@@ -9,6 +10,8 @@ defineOptions({
 
 const props = withDefaults(defineProps<MtButtonProps>(), {
   type: 'default',
+  nativeType: 'button',
+  icon: undefined,
   size: 'normal',
   plain: false,
   round: false,
@@ -43,8 +46,9 @@ function handleClick(event: MouseEvent) {
 </script>
 
 <template>
-  <button :class="classes" :disabled="disabled" type="button" @click="handleClick">
+  <button :class="classes" :disabled="disabled" :type="nativeType" @click="handleClick">
     <MtIconLoading v-if="loading" class="mt-button__loading" />
+    <MtIcon v-else-if="icon" class="mt-button__icon" :name="icon" />
     <span class="mt-button__content">
       <slot />
     </span>

@@ -72,3 +72,4 @@ The named exports `showToast(options | string)` and `clearToast()` are also avai
 | duration | Auto-close delay (ms); `0` disables auto-close | `number` | `2000` (`0` for loading) |
 | position | Display position | `'top' \| 'middle' \| 'bottom'` | `'middle'` |
 | overlay | Shows a transparent overlay that blocks page interaction | `boolean` | `false` |
+| z-index | Stacking order | `number` | `3000` |

@@ -9,12 +9,13 @@ withDefaults(defineProps<MtNotifyProps>(), {
   modelValue: false,
   message: '',
   type: 'danger',
+  zIndex: 3000,
 })
 </script>
 
 <template>
   <Transition name="mt-notify-slide" :duration="200">
-    <div v-if="modelValue" class="mt-notify" :class="`mt-notify--${type}`">
+    <div v-if="modelValue" class="mt-notify" :class="`mt-notify--${type}`" :style="{ zIndex }">
       {{ message }}
     </div>
   </Transition>
@@ -26,7 +27,6 @@ withDefaults(defineProps<MtNotifyProps>(), {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 3000;
   padding: 10px 16px;
   padding-top: calc(10px + env(safe-area-inset-top));
   color: #fff;

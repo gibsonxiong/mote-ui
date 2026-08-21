@@ -96,6 +96,7 @@ const actions = [
 | v-model | Whether the popover is shown | `boolean` | `false` |
 | placement | Direction of the floating panel | `'top' \| 'bottom' \| 'left' \| 'right'` | `'bottom'` |
 | actions | Menu actions | `MtPopoverAction[]` | `[]` |
+| z-index | Custom z-index; auto-allocated when omitted | `number` | - |
 
 ### Events
 

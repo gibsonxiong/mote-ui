@@ -78,4 +78,17 @@ describe('MtImagePreview', () => {
     })
     expect(wrapper.find('.mt-image-preview__index').exists()).toBe(false)
   })
+
+  it('auto-allocates a z-index when shown', () => {
+    const wrapper = mount(MtImagePreview, { props: { modelValue: true, images } })
+    const style = wrapper.find('.mt-image-preview').attributes('style') ?? ''
+    expect(Number(style.match(/z-index:\s*(\d+)/)?.[1])).toBeGreaterThan(2000)
+  })
+
+  it('respects an explicit z-index', () => {
+    const wrapper = mount(MtImagePreview, {
+      props: { modelValue: true, images, zIndex: 1234 },
+    })
+    expect(wrapper.find('.mt-image-preview').attributes('style') ?? '').toContain('z-index: 1234')
+  })
 })

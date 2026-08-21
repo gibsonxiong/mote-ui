@@ -10,6 +10,8 @@ export interface MtToastOptions {
   position?: MtToastPosition
   /** Show a transparent overlay that blocks page interaction */
   overlay?: boolean
+  /** Stacking order; defaults to 3000 to stay above modal layers */
+  zIndex?: number
 }
 
 export interface MtToastApi {

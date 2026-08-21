@@ -96,6 +96,7 @@ const actions = [
 | v-model | 是否显示浮层 | `boolean` | `false` |
 | placement | 浮层弹出方向 | `'top' \| 'bottom' \| 'left' \| 'right'` | `'bottom'` |
 | actions | 菜单选项 | `MtPopoverAction[]` | `[]` |
+| z-index | 自定义层级，缺省时自动分配 | `number` | - |
 
 ### Events
 

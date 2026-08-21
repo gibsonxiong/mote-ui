@@ -73,6 +73,8 @@ Triggers an action — the most fundamental building block.
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
 | type | Button type | `'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'default'` | `'default'` |
+| native-type | Native button type | `'button' \| 'submit' \| 'reset'` | `'button'` |
+| icon | Built-in icon before the content | `MtIconName` | - |
 | size | Button size | `'small' \| 'normal' \| 'large'` | `'normal'` |
 | plain | Whether it is a plain button | `boolean` | `false` |
 | round | Whether it has rounded corners | `boolean` | `false` |

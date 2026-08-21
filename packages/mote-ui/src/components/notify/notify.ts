@@ -6,12 +6,14 @@ interface NotifyState {
   modelValue: boolean
   message: string
   type: MtNotifyType
+  zIndex: number
 }
 
 const state: NotifyState = {
   modelValue: false,
   message: '',
   type: 'danger',
+  zIndex: 3000,
 }
 
 let container: HTMLElement | null = null
@@ -30,6 +32,7 @@ export function showNotify(options: MtNotifyOptions | string = {}): void {
   state.modelValue = true
   state.message = opts.message ?? ''
   state.type = opts.type ?? 'danger'
+  state.zIndex = opts.zIndex ?? 3000
   renderNotify()
 
   if (timer) clearTimeout(timer)

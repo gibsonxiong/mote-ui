@@ -85,6 +85,7 @@ setTimeout(() => (show.value = false), 3000)
 | v-model | 是否显示通知 | `boolean` | `false` |
 | message | 通知内容 | `string` | `''` |
 | type | 类型 | `'primary' \| 'success' \| 'warning' \| 'danger'` | `'danger'` |
+| z-index | 层级 | `number` | `3000` |
 
 ### MtNotify 方法
 
@@ -106,3 +107,4 @@ setTimeout(() => (show.value = false), 3000)
 | message | 通知内容 | `string` | `''` |
 | type | 类型 | `'primary' \| 'success' \| 'warning' \| 'danger'` | `'danger'` |
 | duration | 自动关闭延时（ms），`0` 为不关闭 | `number` | `3000` |
+| z-index | 层级 | `number` | `3000` |

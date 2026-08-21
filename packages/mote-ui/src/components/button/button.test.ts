@@ -36,4 +36,24 @@ describe('MtButton', () => {
     await wrapper.trigger('click')
     expect(wrapper.emitted('click')).toBeUndefined()
   })
+
+  it('renders the native type attribute', () => {
+    const wrapper = mount(MtButton, { props: { nativeType: 'submit' } })
+    expect(wrapper.find('button').attributes('type')).toBe('submit')
+  })
+
+  it('renders an icon before the slot content', () => {
+    const wrapper = mount(MtButton, {
+      props: { icon: 'close' },
+      slots: { default: '删除' },
+    })
+    expect(wrapper.find('.mt-button__icon.mt-icon').exists()).toBe(true)
+    expect(wrapper.text()).toContain('删除')
+  })
+
+  it('shows the loading spinner instead of the icon when loading', () => {
+    const wrapper = mount(MtButton, { props: { icon: 'close', loading: true } })
+    expect(wrapper.find('.mt-button__loading').exists()).toBe(true)
+    expect(wrapper.find('.mt-button__icon').exists()).toBe(false)
+  })
 })

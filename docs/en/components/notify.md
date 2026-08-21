@@ -85,6 +85,7 @@ Since `1.0.0`, the component form uses `v-model` instead of the `visible` prop, 
 | v-model | Whether the notify is shown | `boolean` | `false` |
 | message | Notify content | `string` | `''` |
 | type | Notify type | `'primary' \| 'success' \| 'warning' \| 'danger'` | `'danger'` |
+| z-index | Stacking order | `number` | `3000` |
 
 ### MtNotify Methods
 
@@ -106,3 +107,4 @@ The named exports `showNotify(options | string)` and `closeNotify()` are also av
 | message | Notify content | `string` | `''` |
 | type | Notify type | `'primary' \| 'success' \| 'warning' \| 'danger'` | `'danger'` |
 | duration | Auto-close delay (ms); `0` disables auto-close | `number` | `3000` |
+| z-index | Stacking order | `number` | `3000` |

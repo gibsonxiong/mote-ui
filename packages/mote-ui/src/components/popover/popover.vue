@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import MtIcon from '../icon/icon.vue'
+import { nextZIndex } from '../../utils/z-index'
 import type { MtPopoverAction, MtPopoverProps } from './types'
 
 defineOptions({
@@ -11,6 +12,7 @@ const props = withDefaults(defineProps<MtPopoverProps>(), {
   modelValue: false,
   placement: 'bottom',
   actions: () => [],
+  zIndex: undefined,
 })
 
 const emit = defineEmits<{
@@ -21,6 +23,20 @@ const emit = defineEmits<{
 }>()
 
 const rootRef = ref<HTMLElement>()
+
+// Auto-allocate a z-index when omitted, so popovers stack in opening order.
+// An explicit zIndex passes straight through untouched.
+const allocatedZIndex = ref(0)
+
+watch(
+  () => props.modelValue,
+  (visible) => {
+    if (visible && props.zIndex === undefined) allocatedZIndex.value = nextZIndex()
+  },
+  { immediate: true },
+)
+
+const zIndex = computed(() => props.zIndex ?? allocatedZIndex.value)
 
 function setVisible(value: boolean) {
   if (value === props.modelValue) {
@@ -68,7 +84,7 @@ function handleSelect(action: MtPopoverAction, index: number) {
     <div class="mt-popover__reference" @click="handleTriggerClick">
       <slot name="reference" />
     </div>
-    <div v-show="modelValue" class="mt-popover__panel" :class="`mt-popover__panel--${placement}`">
+    <div v-show="modelValue" class="mt-popover__panel" :class="`mt-popover__panel--${placement}`" :style="{ zIndex }">
       <slot>
         <div
           v-for="(action, index) in actions"
@@ -96,7 +112,6 @@ function handleSelect(action: MtPopoverAction, index: number) {
 
   &__panel {
     position: absolute;
-    z-index: 10;
     min-width: 120px;
     padding: 4px 0;
     background: var(--mt-bg-color);

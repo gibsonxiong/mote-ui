@@ -81,6 +81,7 @@ const images = ['https://example.com/a.jpg', 'https://example.com/b.jpg']
 | show-index | 是否显示 `1 / n` 索引指示 | `boolean` | `true` |
 | closeable | 是否显示关闭按钮 | `boolean` | `false` |
 | close-on-overlay | 点击遮罩层是否关闭 | `boolean` | `true` |
+| z-index | 自定义层级，缺省时自动分配 | `number` | - |
 
 ### Events
 

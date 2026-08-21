@@ -11,4 +11,6 @@ export interface MtImagePreviewProps {
   closeable?: boolean
   /** Close when tapping the overlay */
   closeOnOverlay?: boolean
+  /** Custom z-index; auto-allocated when omitted */
+  zIndex?: number
 }

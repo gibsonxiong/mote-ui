@@ -13,6 +13,7 @@ withDefaults(
     type: MtToastType
     position: MtToastPosition
     overlay: boolean
+    zIndex: number
   }>(),
   {
     visible: false,
@@ -20,13 +21,14 @@ withDefaults(
     type: 'text',
     position: 'middle',
     overlay: false,
+    zIndex: 3000,
   },
 )
 </script>
 
 <template>
   <Transition name="mt-toast-fade" :duration="200">
-    <div v-if="visible" class="mt-toast-wrap">
+    <div v-if="visible" class="mt-toast-wrap" :style="{ zIndex }">
       <div v-if="overlay" class="mt-toast__overlay" />
       <div
         class="mt-toast"
@@ -49,7 +51,6 @@ withDefaults(
   align-items: center;
   justify-content: center;
   pointer-events: none;
-  z-index: 3000;
 }
 
 .mt-toast__overlay {
