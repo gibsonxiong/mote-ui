@@ -58,6 +58,12 @@ import { MtDropdownMenu, MtDropdownItem } from './components/dropdown-menu'
 import { MtTreeSelect } from './components/tree-select'
 import { MtArea } from './components/area'
 import { MtSidebar, MtSidebarItem } from './components/sidebar'
+import { MtIndexBar, MtIndexAnchor } from './components/index-bar'
+import { MtPagination } from './components/pagination'
+import { MtCircle } from './components/circle'
+import { MtLazyLoad } from './components/lazy-load'
+import { MtHighlight } from './components/highlight'
+import { MtFloatingBubble } from './components/floating-bubble'
 
 const components: Plugin[] = [
   MtButton,
@@ -126,6 +132,13 @@ const components: Plugin[] = [
   MtArea,
   MtSidebar,
   MtSidebarItem,
+  MtIndexBar,
+  MtIndexAnchor,
+  MtPagination,
+  MtCircle,
+  MtLazyLoad,
+  MtHighlight,
+  MtFloatingBubble,
 ]
 
 export { setLocale, useLocale, zhCN, enUS } from './locale'
@@ -211,6 +224,13 @@ export {
   MtArea,
   MtSidebar,
   MtSidebarItem,
+  MtIndexBar,
+  MtIndexAnchor,
+  MtPagination,
+  MtCircle,
+  MtLazyLoad,
+  MtHighlight,
+  MtFloatingBubble,
 }
 export type { MtButtonProps } from './components/button'
 export type { MtIconProps, MtIconName } from './components/icon'
@@ -327,6 +347,23 @@ export type {
   MtSidebarItemProps,
   MtSidebarValue,
 } from './components/sidebar'
+export type {
+  MtIndexBarProps,
+  MtIndexAnchorProps,
+  MtIndexBarIndex,
+  MtIndexBarContext,
+  MtIndexBarInstance,
+} from './components/index-bar'
+export type { MtPaginationProps, MtPaginationMode } from './components/pagination'
+export type { MtCircleProps, MtCircleStrokeLinecap } from './components/circle'
+export type { MtLazyLoadProps } from './components/lazy-load'
+export type { MtHighlightProps } from './components/highlight'
+export type {
+  MtFloatingBubbleProps,
+  MtFloatingBubbleAxis,
+  MtFloatingBubbleMagnetic,
+  MtFloatingBubbleOffset,
+} from './components/floating-bubble'
 export type { MtLocaleMessages } from './locale'
 
 export default { install }
