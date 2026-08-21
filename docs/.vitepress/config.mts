@@ -68,6 +68,9 @@ const zhSidebar = [
       { text: 'Tabs 选项卡', link: '/components/tabs' },
       { text: 'DropdownMenu 下拉菜单', link: '/components/dropdown-menu' },
       { text: 'Sidebar 侧边导航', link: '/components/sidebar' },
+      { text: 'IndexBar 索引栏', link: '/components/index-bar' },
+      { text: 'Pagination 分页', link: '/components/pagination' },
+      { text: 'FloatingBubble 悬浮气泡', link: '/components/floating-bubble' },
     ],
   },
   {
@@ -91,6 +94,9 @@ const zhSidebar = [
       { text: 'Steps 步骤条', link: '/components/steps' },
       { text: 'ImagePreview 图片预览', link: '/components/image-preview' },
       { text: 'Sticky 粘性布局', link: '/components/sticky' },
+      { text: 'Circle 环形进度条', link: '/components/circle' },
+      { text: 'LazyLoad 懒加载', link: '/components/lazy-load' },
+      { text: 'Highlight 高亮文本', link: '/components/highlight' },
     ],
   },
 ]
@@ -159,6 +165,9 @@ const enSidebar = [
       { text: 'Tabs', link: '/en/components/tabs' },
       { text: 'DropdownMenu', link: '/en/components/dropdown-menu' },
       { text: 'Sidebar', link: '/en/components/sidebar' },
+      { text: 'IndexBar', link: '/en/components/index-bar' },
+      { text: 'Pagination', link: '/en/components/pagination' },
+      { text: 'FloatingBubble', link: '/en/components/floating-bubble' },
     ],
   },
   {
@@ -182,6 +191,9 @@ const enSidebar = [
       { text: 'Steps', link: '/en/components/steps' },
       { text: 'ImagePreview', link: '/en/components/image-preview' },
       { text: 'Sticky', link: '/en/components/sticky' },
+      { text: 'Circle', link: '/en/components/circle' },
+      { text: 'LazyLoad', link: '/en/components/lazy-load' },
+      { text: 'Highlight', link: '/en/components/highlight' },
     ],
   },
 ]
