@@ -1,6 +1,6 @@
 # Popover 气泡弹出菜单
 
-点击触发元素后弹出的浮层菜单，常用于收纳一组操作。
+点击触发元素后弹出的浮层菜单，常用于收纳一组操作。面板通过 Teleport 挂载到 body，靠近视口边缘时会自动翻转方向并约束在视口内。
 
 <script setup>
 import { ref } from 'vue'
@@ -79,12 +79,24 @@ const actions = [
 ]
 ```
 
-## 弹出位置
+## 弹出位置与对齐
 
-`placement` 支持 `top` / `bottom`（默认）/ `left` / `right`：
+`placement` 支持 `top` / `bottom`（默认）/ `left` / `right`，空间不足时自动翻转。`align` 控制交叉轴对齐（`start` / `center` / `end`）：
 
 ```vue
-<MtPopover placement="top" :actions="actions" />
+<!-- 靠右对齐：面板右边缘与触发元素右边缘对齐 -->
+<MtPopover placement="bottom" align="end" :actions="actions" />
+
+<!-- 靠左对齐 -->
+<MtPopover placement="bottom" align="start" :actions="actions" />
+```
+
+## 多选保持打开
+
+默认点击选项后关闭，设置 `:close-on-select="false"` 可保持打开（适合多选场景）：
+
+```vue
+<MtPopover v-model="show" :actions="actions" :close-on-select="false" @select="handleSelect" />
 ```
 
 ## API
@@ -94,17 +106,27 @@ const actions = [
 | 名称 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | v-model | 是否显示浮层 | `boolean` | `false` |
-| placement | 浮层弹出方向 | `'top' \| 'bottom' \| 'left' \| 'right'` | `'bottom'` |
+| placement | 浮层弹出方向，空间不足自动翻转 | `'top' \| 'bottom' \| 'left' \| 'right'` | `'bottom'` |
+| align | 交叉轴对齐方式 | `'start' \| 'center' \| 'end'` | `'center'` |
 | actions | 菜单选项 | `MtPopoverAction[]` | `[]` |
+| offset | 面板与触发元素的间距（px） | `number` | `8` |
+| close-on-select | 点击选项后是否关闭 | `boolean` | `true` |
+| overlay | 是否显示页面遮罩层 | `boolean` | `false` |
+| close-on-click-overlay | 点击遮罩是否关闭 | `boolean` | `true` |
+| teleport | Teleport 目标 | `string` | `'body'` |
 | z-index | 自定义层级，缺省时自动分配 | `number` | - |
+| duration | 过渡动画时长（ms） | `number` | `200` |
 
 ### Events
 
 | 名称 | 说明 | 参数 |
 | --- | --- | --- |
-| open | 浮层打开时触发 | - |
-| close | 浮层关闭时触发 | - |
+| open | 浮层开始打开时触发（transition 前） | - |
+| opened | 浮层打开完成时触发（transition 后） | - |
+| close | 浮层开始关闭时触发（transition 前） | - |
+| closed | 浮层关闭完成时触发（transition 后） | - |
 | select | 点击菜单项时触发 | `(action: MtPopoverAction, index: number)` |
+| click-overlay | 点击遮罩层时触发 | `(event: MouseEvent)` |
 
 ### Slots
 

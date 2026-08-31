@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, afterEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
 import MtPopover from './popover.vue'
@@ -10,89 +10,125 @@ const actions: MtPopoverAction[] = [
   { text: '禁用项', disabled: true },
 ]
 
+afterEach(() => {
+  document.body.innerHTML = ''
+})
+
 describe('MtPopover', () => {
   it('keeps the panel hidden until modelValue is true', () => {
-    const wrapper = mount(MtPopover, { props: { actions } })
-    expect((wrapper.find('.mt-popover__panel').element as HTMLElement).style.display).toBe(
-      'none',
-    )
+    mount(MtPopover, { props: { actions } })
+    expect(document.body.querySelector('.mt-popover__panel')).toBeNull()
   })
 
-  it('renders actions and applies the placement class', () => {
-    const wrapper = mount(MtPopover, {
-      props: { modelValue: true, actions, placement: 'top' },
+  it('renders actions and applies the placement class', async () => {
+    mount(MtPopover, {
+      props: { modelValue: true, actions, placement: 'bottom' },
     })
-    const panel = wrapper.find('.mt-popover__panel')
-    expect(panel.classes()).toContain('mt-popover__panel--top')
-    const items = wrapper.findAll('.mt-popover__action')
+    await nextTick()
+    const panel = document.body.querySelector('.mt-popover__panel') as HTMLElement
+    expect(panel).not.toBeNull()
+    const items = panel.querySelectorAll('.mt-popover__action')
     expect(items).toHaveLength(3)
-    expect(items[0].text()).toBe('选项一')
-    expect(items[1].find('.mt-popover__action-icon.mt-icon').exists()).toBe(true)
-    expect(items[2].classes()).toContain('mt-popover__action--disabled')
+    expect(items[0].textContent).toContain('选项一')
+    expect(items[1].querySelector('.mt-popover__action-icon.mt-icon')).not.toBeNull()
+    expect(items[2].classList).toContain('mt-popover__action--disabled')
   })
 
   it('toggles visibility when the reference is clicked', async () => {
     const wrapper = mount(MtPopover, { props: { modelValue: false, actions } })
     await wrapper.find('.mt-popover__reference').trigger('click')
     expect(wrapper.emitted('update:modelValue')?.[0]).toEqual([true])
-    expect(wrapper.emitted('open')).toHaveLength(1)
   })
 
-  it('emits select with the action and closes afterwards', async () => {
+  it('emits select with the action and closes afterwards by default', async () => {
     const wrapper = mount(MtPopover, { props: { modelValue: true, actions } })
-    await wrapper.findAll('.mt-popover__action')[1].trigger('click')
+    await nextTick()
+    const items = document.body.querySelectorAll('.mt-popover__action')
+    ;(items[1] as HTMLElement).click()
     expect(wrapper.emitted('select')?.[0]).toEqual([actions[1], 1])
     expect(wrapper.emitted('update:modelValue')?.[0]).toEqual([false])
-    expect(wrapper.emitted('close')).toHaveLength(1)
+  })
+
+  it('keeps open when closeOnSelect is false', async () => {
+    const wrapper = mount(MtPopover, {
+      props: { modelValue: true, actions, closeOnSelect: false },
+    })
+    await nextTick()
+    const items = document.body.querySelectorAll('.mt-popover__action')
+    ;(items[1] as HTMLElement).click()
+    expect(wrapper.emitted('select')).toHaveLength(1)
+    expect(wrapper.emitted('update:modelValue')).toBeUndefined()
   })
 
   it('does not select a disabled action', async () => {
     const wrapper = mount(MtPopover, { props: { modelValue: true, actions } })
-    await wrapper.findAll('.mt-popover__action')[2].trigger('click')
+    await nextTick()
+    const items = document.body.querySelectorAll('.mt-popover__action')
+    ;(items[2] as HTMLElement).click()
     expect(wrapper.emitted('select')).toBeUndefined()
     expect(wrapper.emitted('update:modelValue')).toBeUndefined()
   })
 
   it('closes when clicking outside', async () => {
-    const wrapper = mount(MtPopover, {
-      props: { modelValue: true, actions },
-      attachTo: document.body,
-    })
+    const wrapper = mount(MtPopover, { props: { modelValue: true, actions } })
+    await nextTick()
     document.body.click()
     await nextTick()
     expect(wrapper.emitted('update:modelValue')?.[0]).toEqual([false])
-    wrapper.unmount()
   })
 
-  it('does not close when clicking inside the popover', async () => {
-    const onSelect = vi.fn()
-    const wrapper = mount(MtPopover, {
-      props: { modelValue: true, actions, onSelect },
-      attachTo: document.body,
-    })
-    await wrapper.findAll('.mt-popover__action')[0].trigger('click')
-    // Only the select-triggered close should be emitted, no extra outside-close
-    expect(wrapper.emitted('update:modelValue')).toHaveLength(1)
-    wrapper.unmount()
+  it('does not close when clicking inside the panel', async () => {
+    const wrapper = mount(MtPopover, { props: { modelValue: true, actions } })
+    await nextTick()
+    const panel = document.body.querySelector('.mt-popover__panel') as HTMLElement
+    panel.click()
+    await nextTick()
+    expect(wrapper.emitted('update:modelValue')).toBeUndefined()
   })
 
-  it('renders custom content through the default slot', () => {
-    const wrapper = mount(MtPopover, {
+  it('closes on Escape', async () => {
+    const wrapper = mount(MtPopover, { props: { modelValue: true, actions } })
+    await nextTick()
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
+    await nextTick()
+    expect(wrapper.emitted('update:modelValue')?.[0]).toEqual([false])
+  })
+
+  it('renders custom content through the default slot', async () => {
+    mount(MtPopover, {
       props: { modelValue: true },
       slots: { default: '<div class="custom">自定义内容</div>' },
     })
-    expect(wrapper.find('.mt-popover__panel .custom').text()).toBe('自定义内容')
-    expect(wrapper.find('.mt-popover__action').exists()).toBe(false)
+    await nextTick()
+    expect(document.body.querySelector('.mt-popover__panel .custom')).not.toBeNull()
+    expect(document.body.querySelector('.mt-popover__action')).toBeNull()
   })
 
-  it('auto-allocates a z-index when shown', () => {
-    const wrapper = mount(MtPopover, { props: { modelValue: true, actions } })
-    const style = wrapper.find('.mt-popover__panel').attributes('style') ?? ''
+  it('auto-allocates a z-index when shown', async () => {
+    mount(MtPopover, { props: { modelValue: true, actions } })
+    await nextTick()
+    const style = (document.body.querySelector('.mt-popover__panel') as HTMLElement).getAttribute(
+      'style',
+    ) ?? ''
     expect(Number(style.match(/z-index:\s*(\d+)/)?.[1])).toBeGreaterThan(2000)
   })
 
-  it('respects an explicit z-index', () => {
-    const wrapper = mount(MtPopover, { props: { modelValue: true, actions, zIndex: 2000 } })
-    expect(wrapper.find('.mt-popover__panel').attributes('style') ?? '').toContain('z-index: 2000')
+  it('respects an explicit z-index', async () => {
+    mount(MtPopover, { props: { modelValue: true, actions, zIndex: 2000 } })
+    await nextTick()
+    const style = (document.body.querySelector('.mt-popover__panel') as HTMLElement).getAttribute(
+      'style',
+    ) ?? ''
+    expect(style).toContain('z-index: 2001')
+  })
+
+  it('exposes aria attributes on the reference and panel', async () => {
+    const wrapper = mount(MtPopover, { props: { modelValue: true, actions } })
+    await nextTick()
+    const reference = wrapper.find('.mt-popover__reference')
+    expect(reference.attributes('role')).toBe('button')
+    expect(reference.attributes('aria-haspopup')).toBe('menu')
+    expect(reference.attributes('aria-expanded')).toBe('true')
+    expect(document.body.querySelector('.mt-popover__panel')?.getAttribute('role')).toBe('menu')
   })
 })

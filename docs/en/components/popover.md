@@ -1,6 +1,6 @@
 # Popover
 
-A floating menu that pops up next to a trigger element, useful for grouping secondary actions.
+A floating menu that pops up next to a trigger element, useful for grouping secondary actions. The panel is mounted to body via Teleport and automatically flips direction to stay within the viewport when near an edge.
 
 <script setup>
 import { ref } from 'vue'
@@ -79,12 +79,24 @@ const actions = [
 ]
 ```
 
-## Placement
+## Placement and Alignment
 
-`placement` supports `top` / `bottom` (default) / `left` / `right`:
+`placement` supports `top` / `bottom` (default) / `left` / `right`, and flips automatically when space is insufficient. `align` controls cross-axis alignment (`start` / `center` / `end`):
 
 ```vue
-<MtPopover placement="top" :actions="actions" />
+<!-- Right-aligned: panel's right edge aligns with the trigger's right edge -->
+<MtPopover placement="bottom" align="end" :actions="actions" />
+
+<!-- Left-aligned -->
+<MtPopover placement="bottom" align="start" :actions="actions" />
+```
+
+## Keep Open for Multi-select
+
+By default the panel closes after selecting an action; set `:close-on-select="false"` to keep it open (useful for multi-select scenarios):
+
+```vue
+<MtPopover v-model="show" :actions="actions" :close-on-select="false" @select="handleSelect" />
 ```
 
 ## API
@@ -94,17 +106,27 @@ const actions = [
 | Name | Description | Type | Default |
 | --- | --- | --- | --- |
 | v-model | Whether the popover is shown | `boolean` | `false` |
-| placement | Direction of the floating panel | `'top' \| 'bottom' \| 'left' \| 'right'` | `'bottom'` |
+| placement | Direction of the floating panel, auto-flips when space is insufficient | `'top' \| 'bottom' \| 'left' \| 'right'` | `'bottom'` |
+| align | Cross-axis alignment | `'start' \| 'center' \| 'end'` | `'center'` |
 | actions | Menu actions | `MtPopoverAction[]` | `[]` |
+| offset | Gap between the panel and the trigger (px) | `number` | `8` |
+| close-on-select | Whether to close after selecting an action | `boolean` | `true` |
+| overlay | Whether to show a page overlay | `boolean` | `false` |
+| close-on-click-overlay | Whether clicking the overlay closes it | `boolean` | `true` |
+| teleport | Teleport target | `string` | `'body'` |
 | z-index | Custom z-index; auto-allocated when omitted | `number` | - |
+| duration | Transition duration (ms) | `number` | `200` |
 
 ### Events
 
 | Name | Description | Arguments |
 | --- | --- | --- |
-| open | Emitted when the panel opens | - |
-| close | Emitted when the panel closes | - |
+| open | Emitted when the panel starts opening (before transition) | - |
+| opened | Emitted when the panel has finished opening (after transition) | - |
+| close | Emitted when the panel starts closing (before transition) | - |
+| closed | Emitted when the panel has finished closing (after transition) | - |
 | select | Emitted when an action is clicked | `(action: MtPopoverAction, index: number)` |
+| click-overlay | Emitted when the overlay is clicked | `(event: MouseEvent)` |
 
 ### Slots
 
