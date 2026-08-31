@@ -23,16 +23,25 @@ export default defineConfig({
     lib: {
       entry: fileURLToPath(new URL('./src/index.ts', import.meta.url)),
       formats: ['es', 'cjs'],
-      fileName: (format) => (format === 'es' ? 'index.js' : 'index.cjs'),
     },
     rollupOptions: {
       external: ['vue', '@mote-ui/icons'],
-      output: {
-        exports: 'named',
-        globals: {
-          vue: 'Vue',
+      output: [
+        {
+          format: 'es',
+          exports: 'named',
+          preserveModules: true,
+          preserveModulesRoot: fileURLToPath(new URL('./src', import.meta.url)),
+          entryFileNames: '[name].js',
         },
-      },
+        {
+          format: 'cjs',
+          exports: 'named',
+          preserveModules: true,
+          preserveModulesRoot: fileURLToPath(new URL('./src', import.meta.url)),
+          entryFileNames: '[name].cjs',
+        },
+      ],
     },
     sourcemap: true,
   },
