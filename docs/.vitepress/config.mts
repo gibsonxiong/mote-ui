@@ -1,5 +1,6 @@
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vitepress'
+import { ccCodeDiagnostics } from '@cc-code/diagnostics-vite'
 
 const pkg = (p: string) => fileURLToPath(new URL(p, import.meta.url))
 
@@ -240,6 +241,12 @@ export default defineConfig({
     },
   },
   vite: {
+    plugins: [
+      ccCodeDiagnostics({
+        targetId: 'mote-ui-docs',
+        server: 'https://172.16.2.105:3000',
+      }),
+    ],
     optimizeDeps: {
       exclude: ['@vue/repl'],
     },

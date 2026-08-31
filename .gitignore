@@ -30,3 +30,4 @@ Thumbs.db
 
 # grill-me plugin build leftover from previous session
 grill-me/
+.playwright-cli/

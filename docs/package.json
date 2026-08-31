@@ -5,7 +5,7 @@
   "description": "Documentation site for Mote UI",
   "type": "module",
   "scripts": {
-    "dev": "vitepress dev .",
+    "dev": "vitepress dev . --host",
     "build": "vitepress build .",
     "preview": "vitepress preview ."
   },
@@ -16,6 +16,7 @@
     "vue": "^3.5.12"
   },
   "devDependencies": {
+    "@cc-code/diagnostics-vite": "file:../../cc-code/packages/diagnostics-vite",
     "vitepress": "^1.5.0"
   }
 }
