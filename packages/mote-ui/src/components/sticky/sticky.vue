@@ -79,17 +79,16 @@ const stickyStyle = computed(() => {
 </script>
 
 <template>
-  <div ref="rootRef" class="mt-sticky">
-    <div class="mt-sticky__inner" :style="stickyStyle">
-      <slot />
-    </div>
+  <div ref="rootRef" class="mt-sticky" :style="stickyStyle">
+    <slot />
   </div>
 </template>
 
 <style lang="scss">
 .mt-sticky {
-  &__inner {
-    position: sticky;
-  }
+  // The sticky element must be a direct child of the scroll container, with
+  // enough scroll room around it, for `position: sticky` to take effect.
+  // Wrapping it in an inner div of identical height leaves no room to stick.
+  position: sticky;
 }
 </style>

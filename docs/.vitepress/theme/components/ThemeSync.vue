@@ -15,3 +15,7 @@ watchEffect(() => {
   }
 })
 </script>
+
+<template>
+  <span hidden />
+</template>
