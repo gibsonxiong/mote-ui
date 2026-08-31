@@ -16,7 +16,6 @@
     "vue": "^3.5.12"
   },
   "devDependencies": {
-    "@cc-code/diagnostics-vite": "file:../../cc-code/packages/diagnostics-vite",
     "vitepress": "^1.5.0"
   }
 }

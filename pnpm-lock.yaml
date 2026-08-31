@@ -78,9 +78,6 @@ importers:
         specifier: ^3.5.12
         version: 3.5.41(typescript@5.9.3)
     devDependencies:
-      '@cc-code/diagnostics-vite':
-        specifier: file:../../cc-code/packages/diagnostics-vite
-        version: file:../cc-code/packages/diagnostics-vite(vite@5.4.21(@types/node@22.20.1)(sass@1.102.0))
       vitepress:
         specifier: ^1.5.0
         version: 1.6.4(@algolia/client-search@5.56.0)(@types/node@22.20.1)(postcss@8.5.26)(sass@1.102.0)(search-insights@2.17.3)(typescript@5.9.3)
@@ -198,11 +195,6 @@ packages:
   '@babel/types@7.29.8':
     resolution: {integrity: sha512-Vj1jF3cPfxg7OAfoI7QnVKLoILlm2JF9pnVHrX8qx7AHMiYWT+NDAA7jChlNgRS4WTLc/fD1lXLmPixluj+3Gg==}
     engines: {node: '>=6.9.0'}
-
-  '@cc-code/diagnostics-vite@file:../cc-code/packages/diagnostics-vite':
-    resolution: {directory: ../cc-code/packages/diagnostics-vite, type: directory}
-    peerDependencies:
-      vite: '>=4'
 
   '@changesets/apply-release-plan@7.1.1':
     resolution: {integrity: sha512-9qPCm/rLx/xoOFXIHGB229+4GOL76S4MC+7tyOuTsR6+1jYlfFDQORdvwR5hDA6y4FL2BPt3qpbcQIS+dW85LA==}
@@ -1409,6 +1401,7 @@ packages:
   eslint@9.39.5:
     resolution: {integrity: sha512-DgZS62aPLXKlnxILS/AYCoRvHaZeXceIzlXPkkGGzJWSow1aEk0lbTlxUSlyjC8jcaKxAdOnTDz+o1JFSBsyjw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
     peerDependencies:
       jiti: '*'
@@ -2533,10 +2526,6 @@ snapshots:
     dependencies:
       '@babel/helper-string-parser': 7.29.7
       '@babel/helper-validator-identifier': 7.29.7
-
-  '@cc-code/diagnostics-vite@file:../cc-code/packages/diagnostics-vite(vite@5.4.21(@types/node@22.20.1)(sass@1.102.0))':
-    dependencies:
-      vite: 5.4.21(@types/node@22.20.1)(sass@1.102.0)
 
   '@changesets/apply-release-plan@7.1.1':
     dependencies:
