@@ -1,5 +1,15 @@
 # mote-ui
 
+## 1.1.0
+
+### Minor Changes
+
+- fac8eb3: Add per-component subpath exports (`mote-ui/popup`, `mote-ui/button`, …) backed by a `preserveModules` build, so bundlers can tree-shake unused components and `@mote-ui/icons` when importing named exports from the main entry. Styles remain bundled in a single `dist/style.css`.
+- 7b6f3b0: Add `z-index` prop to Popover and ImagePreview with auto-allocation on open; add `zIndex` option to Notify and Toast; add `nativeType` and `icon` props to Button.
+- 20450c7: Add NumberKeyboard, PasswordInput, Signature, Sticky, and Overlay components. Refactor Popup to reuse Overlay (with auto-incrementing z-index).
+- ed74158: Add ShareSheet, DropdownMenu, TreeSelect, Area, and Sidebar components.
+- bbb7bf5: Add IndexBar, Pagination, Circle, LazyLoad, Highlight, and FloatingBubble components.
+
 ## 1.0.0
 
 ### Major Changes
